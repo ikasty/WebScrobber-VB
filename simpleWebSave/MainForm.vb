@@ -12,7 +12,12 @@ Public Class Mainform
     Private Finish As New DelegateFinishSave(AddressOf FinishSave)
 
     '//URL 관리 클래스
-    Private urlDownloadController As UrlDownloadController = UrlDownloadController.getSingleton()
+    Private urlDownloadController As UrlDownloadController = urlDownloadController.getSingleton()
+
+    '// 소스 추가
+    Private Sub AddSourceBtn_Click(sender As Object, e As EventArgs) Handles AddSourceBtn.Click
+
+    End Sub
 
     '프로세스 시작
     Private Sub SaveBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveBtn.Click
@@ -155,4 +160,5 @@ Public Class Mainform
         Direction.Text = Environment.CurrentDirectory() + "\Manga"
         Deleted.Text = Environment.CurrentDirectory() + "\Deleted Manga"
     End Sub
+
 End Class

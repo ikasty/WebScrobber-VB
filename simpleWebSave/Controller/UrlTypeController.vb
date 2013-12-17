@@ -11,8 +11,6 @@
     End Enum
 
     Private Shared Form As Mainform = Mainform
-    Private Shared getHtml As New getHtmlWithParse
-
     Private Shared Singleton As New UrlTypeController
 
     Private Sub New()

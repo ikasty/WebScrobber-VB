@@ -70,6 +70,7 @@ Partial Class Mainform
         Me.URL = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.SourceBox = New System.Windows.Forms.GroupBox()
         Me.ResultBox = New System.Windows.Forms.GroupBox()
+        Me.AddSourceBtn = New System.Windows.Forms.Button()
         Me.SettingBox.SuspendLayout()
         CType(Me.NumberCount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Title, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -94,7 +95,7 @@ Partial Class Mainform
         Me.Source.Multiline = True
         Me.Source.Name = "Source"
         Me.Source.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.Source.Size = New System.Drawing.Size(566, 118)
+        Me.Source.Size = New System.Drawing.Size(487, 118)
         Me.Source.TabIndex = 0
         '
         'SaveBtn
@@ -461,7 +462,7 @@ Partial Class Mainform
         Me.AutoSourceUseLabel.AutoSize = True
         Me.AutoSourceUseLabel.Checked = True
         Me.AutoSourceUseLabel.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.AutoSourceUseLabel.Location = New System.Drawing.Point(11, 172)
+        Me.AutoSourceUseLabel.Location = New System.Drawing.Point(17, 175)
         Me.AutoSourceUseLabel.Name = "AutoSourceUseLabel"
         Me.AutoSourceUseLabel.Size = New System.Drawing.Size(116, 29)
         Me.AutoSourceUseLabel.TabIndex = 22
@@ -471,7 +472,7 @@ Partial Class Mainform
         'AutoSourceCountLabel
         '
         Me.AutoSourceCountLabel.AutoSize = True
-        Me.AutoSourceCountLabel.Location = New System.Drawing.Point(6, 134)
+        Me.AutoSourceCountLabel.Location = New System.Drawing.Point(12, 147)
         Me.AutoSourceCountLabel.Name = "AutoSourceCountLabel"
         Me.AutoSourceCountLabel.Size = New System.Drawing.Size(129, 25)
         Me.AutoSourceCountLabel.TabIndex = 5
@@ -479,7 +480,7 @@ Partial Class Mainform
         '
         'AutoSourceCount
         '
-        Me.AutoSourceCount.Location = New System.Drawing.Point(141, 132)
+        Me.AutoSourceCount.Location = New System.Drawing.Point(147, 145)
         Me.AutoSourceCount.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
         Me.AutoSourceCount.Name = "AutoSourceCount"
         Me.AutoSourceCount.Size = New System.Drawing.Size(92, 31)
@@ -488,7 +489,7 @@ Partial Class Mainform
         'AutoSourceTimeReverse
         '
         Me.AutoSourceTimeReverse.AutoSize = True
-        Me.AutoSourceTimeReverse.Location = New System.Drawing.Point(11, 102)
+        Me.AutoSourceTimeReverse.Location = New System.Drawing.Point(17, 110)
         Me.AutoSourceTimeReverse.Name = "AutoSourceTimeReverse"
         Me.AutoSourceTimeReverse.Size = New System.Drawing.Size(194, 29)
         Me.AutoSourceTimeReverse.TabIndex = 3
@@ -497,7 +498,7 @@ Partial Class Mainform
         '
         'GetAutoSourceUrl
         '
-        Me.GetAutoSourceUrl.Location = New System.Drawing.Point(11, 59)
+        Me.GetAutoSourceUrl.Location = New System.Drawing.Point(17, 67)
         Me.GetAutoSourceUrl.Name = "GetAutoSourceUrl"
         Me.GetAutoSourceUrl.Size = New System.Drawing.Size(173, 37)
         Me.GetAutoSourceUrl.TabIndex = 2
@@ -507,7 +508,7 @@ Partial Class Mainform
         'AutoSourceUrlLabel
         '
         Me.AutoSourceUrlLabel.AutoSize = True
-        Me.AutoSourceUrlLabel.Location = New System.Drawing.Point(6, 25)
+        Me.AutoSourceUrlLabel.Location = New System.Drawing.Point(12, 33)
         Me.AutoSourceUrlLabel.Name = "AutoSourceUrlLabel"
         Me.AutoSourceUrlLabel.Size = New System.Drawing.Size(35, 25)
         Me.AutoSourceUrlLabel.TabIndex = 1
@@ -515,7 +516,7 @@ Partial Class Mainform
         '
         'AutoSourceUrl
         '
-        Me.AutoSourceUrl.Location = New System.Drawing.Point(47, 22)
+        Me.AutoSourceUrl.Location = New System.Drawing.Point(53, 30)
         Me.AutoSourceUrl.Name = "AutoSourceUrl"
         Me.AutoSourceUrl.Size = New System.Drawing.Size(266, 31)
         Me.AutoSourceUrl.TabIndex = 0
@@ -565,6 +566,7 @@ Partial Class Mainform
         '
         'SourceBox
         '
+        Me.SourceBox.Controls.Add(Me.AddSourceBtn)
         Me.SourceBox.Controls.Add(Me.Source)
         Me.SourceBox.Location = New System.Drawing.Point(12, 12)
         Me.SourceBox.Name = "SourceBox"
@@ -584,6 +586,15 @@ Partial Class Mainform
         Me.ResultBox.TabIndex = 1
         Me.ResultBox.TabStop = False
         Me.ResultBox.Text = "수집 결과"
+        '
+        'AddSourceBtn
+        '
+        Me.AddSourceBtn.Location = New System.Drawing.Point(497, 29)
+        Me.AddSourceBtn.Name = "AddSourceBtn"
+        Me.AddSourceBtn.Size = New System.Drawing.Size(75, 118)
+        Me.AddSourceBtn.TabIndex = 1
+        Me.AddSourceBtn.Text = "추가"
+        Me.AddSourceBtn.UseVisualStyleBackColor = True
         '
         'Mainform
         '
@@ -670,5 +681,6 @@ Partial Class Mainform
     Friend WithEvents useFirstUrlSource As System.Windows.Forms.CheckBox
     Friend WithEvents Deleted As System.Windows.Forms.TextBox
     Friend WithEvents DeletedLabel As System.Windows.Forms.Label
+    Friend WithEvents AddSourceBtn As System.Windows.Forms.Button
 
 End Class

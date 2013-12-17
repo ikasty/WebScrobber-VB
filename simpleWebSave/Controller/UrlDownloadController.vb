@@ -16,12 +16,11 @@ Public NotInheritable Class UrlDownloadController
         Return Singleton
     End Function
 
-
     ' 수집을 기다리는 url
     Private Shared urlList As New Queue(Of SingleURL)
 
     ' 대기 목록에 url 추가
-    Public Sub addSingleUrl(ByVal URL As SingleURL)
+    Public Sub addSingleUrl(ByRef URL As SingleURL)
         Monitor.Enter(urlList)
         urlList.Enqueue(URL)
         Monitor.Exit(urlList)

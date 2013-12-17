@@ -21,9 +21,6 @@
     End Sub
 
 
-    'html 코드를 구하는 객체
-    Private getHtml As New getHtmlWithParse
-
     '//소스의 url
     Private _url As String
     Public Property URL As String
@@ -53,14 +50,14 @@
         Get
             If (_source = "") Then
                 '그리고 raw 데이터를 받는다
-                Me.Source = getHtml.getHtml(Me)
+                Me.Source = htmlParser.getHtml(Me)
             End If
 
             Return _source
         End Get
         Set(ByVal value As String)
             _source = value
-            _source = getHtml.CleaningHtml(Me)
+            _source = htmlParser.CleaningHtml(Me)
         End Set
     End Property
     Public ReadOnly Property lowerSource As String

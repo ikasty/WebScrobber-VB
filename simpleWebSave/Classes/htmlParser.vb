@@ -1,23 +1,12 @@
-﻿Public Class getHtmlWithParse
-    Inherits HtmlController.getHtml
-
-    Public useFirstUrl As Boolean = False
-
-    Private Shared Singleton As New getHtmlWithParse
-
-    Public Sub New()
-        MyBase.New(AddressOf Mainform.SendNotice)
+﻿Public Class htmlParser
+    Private Sub New()
     End Sub
 
-    Public Shared Function getSingleton() As getHtmlWithParse
-        Return Singleton
+    Public Shared Function getHtml(ByVal singleURL As SingleURL) As String
+        Return HtmlController.getHtml.getHtml(singleURL.URL, AddressOf Mainform.SendNotice)
     End Function
 
-    Public Overloads Function getHtml(ByVal singleURL As SingleURL) As String
-        Return MyBase.getHtml(singleURL.URL)
-    End Function
-
-    Public Function CleaningHtml(ByVal singleURL As SingleURL)
+    Public Shared Function CleaningHtml(ByVal singleURL As SingleURL, Optional ByVal useFirstUrl As Boolean = False)
         Dim source As String = singleURL.Source
 
         ' frame으로 게시물의 핵심 부분 소스가 막혀있는 경우
@@ -63,7 +52,7 @@
 
     ' 소스 후처리 프로세스에서 사용하는 function
     ' frame의 url을 구한다
-    Private Function getFrameUrl(ByVal Source As String, ByVal FrameName As String, ByVal URL As String) As String
+    Private Shared Function getFrameUrl(ByVal Source As String, ByVal FrameName As String, ByVal URL As String) As String
         Dim StartPos As Integer = Source.LastIndexOf("<frame id=""" & FrameName & """") + ("<frame id=""" & FrameName & """").Length
         StartPos = InStr(StartPos, Source, "src=""") + "src=""".Length
         Dim FinishPos As Integer = InStr(StartPos, Source, """")
