@@ -56,9 +56,9 @@ Public Class GetImageUrl
         Root = Mainform.Direction.Text
         Deleted = Mainform.Deleted.Text
         Groupname = DelChar(Mainform.Group.Text)
-        Title = Mainform.Title.Value
+        Title = Mainform.TitleNumber.Value
         PostTitle = DelChar(Mainform.Subchar.Text)
-        TitleFormat = Mainform.TitleFormat
+        'TitleFormat = Mainform.TitleFormat
 
         If (Mainform.KeepCount.Checked = True) Then KeepCount = True Else KeepCount = False
 

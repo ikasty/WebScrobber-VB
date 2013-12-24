@@ -94,7 +94,6 @@ Public NotInheritable Class UrlDownloadController
         liveThreadsCount -= 1
     End Sub
 
-
     Private Shared Sub Notice(ByVal Message As String)
         Mainform.SendNotice("UrlDownloadController: " & Message)
     End Sub

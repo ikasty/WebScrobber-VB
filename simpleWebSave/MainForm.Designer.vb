@@ -26,6 +26,11 @@ Partial Class Mainform
         Me.SaveBtn = New System.Windows.Forms.Button()
         Me.Log = New System.Windows.Forms.TextBox()
         Me.SettingBox = New System.Windows.Forms.GroupBox()
+        Me.Url = New System.Windows.Forms.TextBox()
+        Me.URLLabel = New System.Windows.Forms.Label()
+        Me.TitleFormat = New System.Windows.Forms.TextBox()
+        Me.AddSourceBtn = New System.Windows.Forms.Button()
+        Me.TitleFormatLabel = New System.Windows.Forms.Label()
         Me.Deleted = New System.Windows.Forms.TextBox()
         Me.DeletedLabel = New System.Windows.Forms.Label()
         Me.NumberCountLabel = New System.Windows.Forms.Label()
@@ -35,7 +40,7 @@ Partial Class Mainform
         Me.KeepCount = New System.Windows.Forms.CheckBox()
         Me.Subchar = New System.Windows.Forms.TextBox()
         Me.SubcharLabel = New System.Windows.Forms.Label()
-        Me.Title = New System.Windows.Forms.NumericUpDown()
+        Me.TitleNumber = New System.Windows.Forms.NumericUpDown()
         Me.DirectionLabel = New System.Windows.Forms.Label()
         Me.TitleLabel = New System.Windows.Forms.Label()
         Me.GroupLabel = New System.Windows.Forms.Label()
@@ -53,35 +58,20 @@ Partial Class Mainform
         Me.SourceNaver = New System.Windows.Forms.RadioButton()
         Me.InfoBox = New System.Windows.Forms.GroupBox()
         Me.Info = New System.Windows.Forms.TextBox()
-        Me.OptionBox = New System.Windows.Forms.GroupBox()
-        Me.AutoSourceBox = New System.Windows.Forms.GroupBox()
-        Me.AutoSourceUseLabel = New System.Windows.Forms.CheckBox()
-        Me.AutoSourceCountLabel = New System.Windows.Forms.Label()
-        Me.AutoSourceCount = New System.Windows.Forms.NumericUpDown()
-        Me.AutoSourceTimeReverse = New System.Windows.Forms.CheckBox()
-        Me.GetAutoSourceUrl = New System.Windows.Forms.Button()
-        Me.AutoSourceUrlLabel = New System.Windows.Forms.Label()
-        Me.AutoSourceUrl = New System.Windows.Forms.TextBox()
-        Me.LoginBox = New System.Windows.Forms.GroupBox()
-        Me.LoginList = New System.Windows.Forms.ListView()
-        Me.Sites = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.ID = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.PWD = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.URL = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.SourceBox = New System.Windows.Forms.GroupBox()
-        Me.ResultBox = New System.Windows.Forms.GroupBox()
-        Me.AddSourceBtn = New System.Windows.Forms.Button()
+        Me.LogBox = New System.Windows.Forms.GroupBox()
+        Me.SiteListBox = New System.Windows.Forms.GroupBox()
+        Me.SiteListView = New System.Windows.Forms.ListView()
+        Me.UrlHeader = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.StatusHeader = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ConsoleBox = New System.Windows.Forms.GroupBox()
         Me.SettingBox.SuspendLayout()
         CType(Me.NumberCount, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Title, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TitleNumber, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SourceSettingBox.SuspendLayout()
         Me.InfoBox.SuspendLayout()
-        Me.OptionBox.SuspendLayout()
-        Me.AutoSourceBox.SuspendLayout()
-        CType(Me.AutoSourceCount, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.LoginBox.SuspendLayout()
-        Me.SourceBox.SuspendLayout()
-        Me.ResultBox.SuspendLayout()
+        Me.LogBox.SuspendLayout()
+        Me.SiteListBox.SuspendLayout()
+        Me.ConsoleBox.SuspendLayout()
         Me.SuspendLayout()
         '
         'Source
@@ -89,22 +79,24 @@ Partial Class Mainform
         Me.Source.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Source.Location = New System.Drawing.Point(6, 29)
+        Me.Source.Location = New System.Drawing.Point(6, 31)
         Me.Source.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.Source.MaxLength = 1024768
         Me.Source.Multiline = True
         Me.Source.Name = "Source"
         Me.Source.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.Source.Size = New System.Drawing.Size(487, 118)
+        Me.Source.Size = New System.Drawing.Size(427, 175)
         Me.Source.TabIndex = 0
         '
         'SaveBtn
         '
+        Me.SaveBtn.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SaveBtn.Font = New System.Drawing.Font("맑은 고딕", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.SaveBtn.Location = New System.Drawing.Point(601, 229)
+        Me.SaveBtn.Location = New System.Drawing.Point(596, 488)
         Me.SaveBtn.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.SaveBtn.Name = "SaveBtn"
-        Me.SaveBtn.Size = New System.Drawing.Size(331, 197)
+        Me.SaveBtn.Size = New System.Drawing.Size(439, 98)
         Me.SaveBtn.TabIndex = 1
         Me.SaveBtn.Text = "실행"
         Me.SaveBtn.UseVisualStyleBackColor = True
@@ -120,12 +112,17 @@ Partial Class Mainform
         Me.Log.Multiline = True
         Me.Log.Name = "Log"
         Me.Log.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.Log.Size = New System.Drawing.Size(566, 216)
+        Me.Log.Size = New System.Drawing.Size(466, 210)
         Me.Log.TabIndex = 7
         '
         'SettingBox
         '
         Me.SettingBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.SettingBox.Controls.Add(Me.Url)
+        Me.SettingBox.Controls.Add(Me.URLLabel)
+        Me.SettingBox.Controls.Add(Me.TitleFormat)
+        Me.SettingBox.Controls.Add(Me.AddSourceBtn)
+        Me.SettingBox.Controls.Add(Me.TitleFormatLabel)
         Me.SettingBox.Controls.Add(Me.Deleted)
         Me.SettingBox.Controls.Add(Me.DeletedLabel)
         Me.SettingBox.Controls.Add(Me.NumberCountLabel)
@@ -135,33 +132,84 @@ Partial Class Mainform
         Me.SettingBox.Controls.Add(Me.KeepCount)
         Me.SettingBox.Controls.Add(Me.Subchar)
         Me.SettingBox.Controls.Add(Me.SubcharLabel)
-        Me.SettingBox.Controls.Add(Me.Title)
+        Me.SettingBox.Controls.Add(Me.TitleNumber)
         Me.SettingBox.Controls.Add(Me.DirectionLabel)
         Me.SettingBox.Controls.Add(Me.TitleLabel)
         Me.SettingBox.Controls.Add(Me.GroupLabel)
         Me.SettingBox.Controls.Add(Me.Group)
         Me.SettingBox.Controls.Add(Me.Direction)
         Me.SettingBox.Font = New System.Drawing.Font("맑은 고딕", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.SettingBox.Location = New System.Drawing.Point(12, 433)
+        Me.SettingBox.Location = New System.Drawing.Point(12, 267)
         Me.SettingBox.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.SettingBox.Name = "SettingBox"
         Me.SettingBox.Padding = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.SettingBox.Size = New System.Drawing.Size(578, 194)
+        Me.SettingBox.Size = New System.Drawing.Size(578, 319)
         Me.SettingBox.TabIndex = 14
         Me.SettingBox.TabStop = False
-        Me.SettingBox.Text = "기본 설정"
+        Me.SettingBox.Text = "소스 설정"
+        '
+        'Url
+        '
+        Me.Url.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Url.BackColor = System.Drawing.SystemColors.Info
+        Me.Url.ForeColor = System.Drawing.Color.Black
+        Me.Url.Location = New System.Drawing.Point(102, 107)
+        Me.Url.Name = "Url"
+        Me.Url.Size = New System.Drawing.Size(470, 31)
+        Me.Url.TabIndex = 32
+        '
+        'URLLabel
+        '
+        Me.URLLabel.AutoSize = True
+        Me.URLLabel.Location = New System.Drawing.Point(61, 110)
+        Me.URLLabel.Name = "URLLabel"
+        Me.URLLabel.Size = New System.Drawing.Size(35, 25)
+        Me.URLLabel.TabIndex = 31
+        Me.URLLabel.Text = "Url"
+        '
+        'TitleFormat
+        '
+        Me.TitleFormat.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TitleFormat.Location = New System.Drawing.Point(102, 183)
+        Me.TitleFormat.Name = "TitleFormat"
+        Me.TitleFormat.Size = New System.Drawing.Size(105, 31)
+        Me.TitleFormat.TabIndex = 30
+        Me.TitleFormat.Text = "%G %n%s"
+        '
+        'AddSourceBtn
+        '
+        Me.AddSourceBtn.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.AddSourceBtn.Location = New System.Drawing.Point(6, 271)
+        Me.AddSourceBtn.Name = "AddSourceBtn"
+        Me.AddSourceBtn.Size = New System.Drawing.Size(179, 41)
+        Me.AddSourceBtn.TabIndex = 1
+        Me.AddSourceBtn.Text = "추가"
+        Me.AddSourceBtn.UseVisualStyleBackColor = True
+        '
+        'TitleFormatLabel
+        '
+        Me.TitleFormatLabel.AutoSize = True
+        Me.TitleFormatLabel.Location = New System.Drawing.Point(48, 187)
+        Me.TitleFormatLabel.Name = "TitleFormatLabel"
+        Me.TitleFormatLabel.Size = New System.Drawing.Size(48, 25)
+        Me.TitleFormatLabel.TabIndex = 29
+        Me.TitleFormatLabel.Text = "포맷"
         '
         'Deleted
         '
-        Me.Deleted.Location = New System.Drawing.Point(120, 146)
+        Me.Deleted.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Deleted.Location = New System.Drawing.Point(102, 70)
         Me.Deleted.Name = "Deleted"
-        Me.Deleted.Size = New System.Drawing.Size(452, 31)
+        Me.Deleted.Size = New System.Drawing.Size(470, 31)
         Me.Deleted.TabIndex = 28
         '
         'DeletedLabel
         '
         Me.DeletedLabel.AutoSize = True
-        Me.DeletedLabel.Location = New System.Drawing.Point(24, 149)
+        Me.DeletedLabel.Location = New System.Drawing.Point(6, 73)
         Me.DeletedLabel.Name = "DeletedLabel"
         Me.DeletedLabel.Size = New System.Drawing.Size(90, 25)
         Me.DeletedLabel.TabIndex = 27
@@ -169,8 +217,9 @@ Partial Class Mainform
         '
         'NumberCountLabel
         '
+        Me.NumberCountLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.NumberCountLabel.AutoSize = True
-        Me.NumberCountLabel.Location = New System.Drawing.Point(465, 74)
+        Me.NumberCountLabel.Location = New System.Drawing.Point(325, 187)
         Me.NumberCountLabel.Name = "NumberCountLabel"
         Me.NumberCountLabel.Size = New System.Drawing.Size(66, 25)
         Me.NumberCountLabel.TabIndex = 26
@@ -178,18 +227,19 @@ Partial Class Mainform
         '
         'NumberCount
         '
-        Me.NumberCount.Location = New System.Drawing.Point(537, 72)
+        Me.NumberCount.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NumberCount.Location = New System.Drawing.Point(397, 185)
         Me.NumberCount.Maximum = New Decimal(New Integer() {4, 0, 0, 0})
         Me.NumberCount.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NumberCount.Name = "NumberCount"
-        Me.NumberCount.Size = New System.Drawing.Size(35, 31)
+        Me.NumberCount.Size = New System.Drawing.Size(52, 31)
         Me.NumberCount.TabIndex = 25
         Me.NumberCount.Value = New Decimal(New Integer() {2, 0, 0, 0})
         '
         'SampleLabel
         '
         Me.SampleLabel.AutoSize = True
-        Me.SampleLabel.Location = New System.Drawing.Point(30, 111)
+        Me.SampleLabel.Location = New System.Drawing.Point(12, 226)
         Me.SampleLabel.Name = "SampleLabel"
         Me.SampleLabel.Size = New System.Drawing.Size(84, 25)
         Me.SampleLabel.TabIndex = 24
@@ -197,17 +247,21 @@ Partial Class Mainform
         '
         'Sample
         '
-        Me.Sample.Location = New System.Drawing.Point(120, 108)
+        Me.Sample.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Sample.BackColor = System.Drawing.SystemColors.InactiveCaption
+        Me.Sample.Location = New System.Drawing.Point(102, 223)
         Me.Sample.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.Sample.Name = "Sample"
         Me.Sample.ReadOnly = True
-        Me.Sample.Size = New System.Drawing.Size(330, 31)
+        Me.Sample.Size = New System.Drawing.Size(469, 31)
         Me.Sample.TabIndex = 23
         '
         'KeepCount
         '
+        Me.KeepCount.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.KeepCount.AutoSize = True
-        Me.KeepCount.Location = New System.Drawing.Point(456, 110)
+        Me.KeepCount.Location = New System.Drawing.Point(455, 186)
         Me.KeepCount.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.KeepCount.Name = "KeepCount"
         Me.KeepCount.Size = New System.Drawing.Size(116, 29)
@@ -217,7 +271,8 @@ Partial Class Mainform
         '
         'Subchar
         '
-        Me.Subchar.Location = New System.Drawing.Point(417, 71)
+        Me.Subchar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Subchar.Location = New System.Drawing.Point(530, 145)
         Me.Subchar.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.Subchar.Name = "Subchar"
         Me.Subchar.Size = New System.Drawing.Size(42, 31)
@@ -226,35 +281,38 @@ Partial Class Mainform
         '
         'SubcharLabel
         '
+        Me.SubcharLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SubcharLabel.AutoSize = True
-        Me.SubcharLabel.Location = New System.Drawing.Point(363, 74)
+        Me.SubcharLabel.Location = New System.Drawing.Point(476, 148)
         Me.SubcharLabel.Name = "SubcharLabel"
         Me.SubcharLabel.Size = New System.Drawing.Size(48, 25)
         Me.SubcharLabel.TabIndex = 20
         Me.SubcharLabel.Text = "단위"
         '
-        'Title
+        'TitleNumber
         '
-        Me.Title.Location = New System.Drawing.Point(305, 71)
-        Me.Title.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.Title.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
-        Me.Title.Name = "Title"
-        Me.Title.Size = New System.Drawing.Size(52, 31)
-        Me.Title.TabIndex = 19
+        Me.TitleNumber.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TitleNumber.Location = New System.Drawing.Point(267, 185)
+        Me.TitleNumber.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.TitleNumber.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
+        Me.TitleNumber.Name = "TitleNumber"
+        Me.TitleNumber.Size = New System.Drawing.Size(52, 31)
+        Me.TitleNumber.TabIndex = 19
         '
         'DirectionLabel
         '
         Me.DirectionLabel.AutoSize = True
-        Me.DirectionLabel.Location = New System.Drawing.Point(24, 35)
+        Me.DirectionLabel.Location = New System.Drawing.Point(6, 35)
         Me.DirectionLabel.Name = "DirectionLabel"
         Me.DirectionLabel.Size = New System.Drawing.Size(90, 25)
         Me.DirectionLabel.TabIndex = 18
-        Me.DirectionLabel.Text = "메인 폴더"
+        Me.DirectionLabel.Text = "작업 폴더"
         '
         'TitleLabel
         '
+        Me.TitleLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TitleLabel.AutoSize = True
-        Me.TitleLabel.Location = New System.Drawing.Point(245, 72)
+        Me.TitleLabel.Location = New System.Drawing.Point(213, 187)
         Me.TitleLabel.Name = "TitleLabel"
         Me.TitleLabel.Size = New System.Drawing.Size(48, 25)
         Me.TitleLabel.TabIndex = 16
@@ -263,31 +321,36 @@ Partial Class Mainform
         'GroupLabel
         '
         Me.GroupLabel.AutoSize = True
-        Me.GroupLabel.Location = New System.Drawing.Point(48, 74)
+        Me.GroupLabel.Location = New System.Drawing.Point(30, 148)
         Me.GroupLabel.Name = "GroupLabel"
         Me.GroupLabel.Size = New System.Drawing.Size(66, 25)
         Me.GroupLabel.TabIndex = 15
-        Me.GroupLabel.Text = "폴더명"
+        Me.GroupLabel.Text = "그룹명"
         '
         'Group
         '
-        Me.Group.Location = New System.Drawing.Point(120, 71)
+        Me.Group.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Group.Location = New System.Drawing.Point(102, 145)
         Me.Group.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.Group.Name = "Group"
-        Me.Group.Size = New System.Drawing.Size(119, 31)
+        Me.Group.Size = New System.Drawing.Size(368, 31)
         Me.Group.TabIndex = 17
         '
         'Direction
         '
-        Me.Direction.Location = New System.Drawing.Point(120, 32)
+        Me.Direction.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Direction.Location = New System.Drawing.Point(102, 32)
         Me.Direction.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.Direction.Name = "Direction"
-        Me.Direction.Size = New System.Drawing.Size(452, 31)
+        Me.Direction.Size = New System.Drawing.Size(470, 31)
         Me.Direction.TabIndex = 14
         Me.Direction.Text = "F:\Manga Scraps"
         '
         'SourceSettingBox
         '
+        Me.SourceSettingBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SourceSettingBox.Controls.Add(Me.useFirstUrlSource)
         Me.SourceSettingBox.Controls.Add(Me.SourceFC2)
         Me.SourceSettingBox.Controls.Add(Me.UseSourceUrl)
@@ -297,7 +360,7 @@ Partial Class Mainform
         Me.SourceSettingBox.Controls.Add(Me.SourceTumbler)
         Me.SourceSettingBox.Controls.Add(Me.SourceDefault)
         Me.SourceSettingBox.Controls.Add(Me.SourceNaver)
-        Me.SourceSettingBox.Location = New System.Drawing.Point(596, 12)
+        Me.SourceSettingBox.Location = New System.Drawing.Point(1041, 12)
         Me.SourceSettingBox.Name = "SourceSettingBox"
         Me.SourceSettingBox.Size = New System.Drawing.Size(336, 210)
         Me.SourceSettingBox.TabIndex = 16
@@ -400,11 +463,11 @@ Partial Class Mainform
         '
         'InfoBox
         '
-        Me.InfoBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.InfoBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.InfoBox.Controls.Add(Me.Info)
-        Me.InfoBox.Location = New System.Drawing.Point(601, 433)
+        Me.InfoBox.Location = New System.Drawing.Point(1041, 228)
         Me.InfoBox.Name = "InfoBox"
-        Me.InfoBox.Size = New System.Drawing.Size(331, 194)
+        Me.InfoBox.Size = New System.Drawing.Size(336, 194)
         Me.InfoBox.TabIndex = 19
         Me.InfoBox.TabStop = False
         Me.InfoBox.Text = "정보"
@@ -415,196 +478,83 @@ Partial Class Mainform
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Info.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.Info.Location = New System.Drawing.Point(6, 22)
+        Me.Info.Location = New System.Drawing.Point(6, 30)
         Me.Info.Multiline = True
         Me.Info.Name = "Info"
         Me.Info.ReadOnly = True
         Me.Info.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.Info.Size = New System.Drawing.Size(319, 166)
+        Me.Info.Size = New System.Drawing.Size(324, 158)
         Me.Info.TabIndex = 0
         Me.Info.Text = "이 프로그램의 사용상의 법적 책임은 사용자에게 있습니다." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "웹 상의 이미지를 쉽게 저장해 정리해주는 프로그램입니다. 만화 등을 긁어올 때 유용" & _
     "하게 사용됩니다." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "사이트의 주소를 한 줄에 하나씩 입력하거나, 또는 HTML 소스를 복사해 붙여넣으면 됩니다." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "버전 4.3"
         '
-        'OptionBox
+        'LogBox
         '
-        Me.OptionBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.LogBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OptionBox.Controls.Add(Me.AutoSourceBox)
-        Me.OptionBox.Controls.Add(Me.LoginBox)
-        Me.OptionBox.Location = New System.Drawing.Point(938, 12)
-        Me.OptionBox.Name = "OptionBox"
-        Me.OptionBox.Size = New System.Drawing.Size(334, 414)
-        Me.OptionBox.TabIndex = 20
-        Me.OptionBox.TabStop = False
-        Me.OptionBox.Text = "특수 기능"
+        Me.LogBox.Controls.Add(Me.Log)
+        Me.LogBox.Location = New System.Drawing.Point(557, 12)
+        Me.LogBox.Name = "LogBox"
+        Me.LogBox.Size = New System.Drawing.Size(478, 248)
+        Me.LogBox.TabIndex = 1
+        Me.LogBox.TabStop = False
+        Me.LogBox.Text = "로그"
         '
-        'AutoSourceBox
+        'SiteListBox
         '
-        Me.AutoSourceBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.AutoSourceBox.Controls.Add(Me.AutoSourceUseLabel)
-        Me.AutoSourceBox.Controls.Add(Me.AutoSourceCountLabel)
-        Me.AutoSourceBox.Controls.Add(Me.AutoSourceCount)
-        Me.AutoSourceBox.Controls.Add(Me.AutoSourceTimeReverse)
-        Me.AutoSourceBox.Controls.Add(Me.GetAutoSourceUrl)
-        Me.AutoSourceBox.Controls.Add(Me.AutoSourceUrlLabel)
-        Me.AutoSourceBox.Controls.Add(Me.AutoSourceUrl)
-        Me.AutoSourceBox.Location = New System.Drawing.Point(9, 181)
-        Me.AutoSourceBox.Name = "AutoSourceBox"
-        Me.AutoSourceBox.Size = New System.Drawing.Size(319, 226)
-        Me.AutoSourceBox.TabIndex = 23
-        Me.AutoSourceBox.TabStop = False
-        Me.AutoSourceBox.Text = "소스 자동 채우기"
-        '
-        'AutoSourceUseLabel
-        '
-        Me.AutoSourceUseLabel.AutoSize = True
-        Me.AutoSourceUseLabel.Checked = True
-        Me.AutoSourceUseLabel.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.AutoSourceUseLabel.Location = New System.Drawing.Point(17, 175)
-        Me.AutoSourceUseLabel.Name = "AutoSourceUseLabel"
-        Me.AutoSourceUseLabel.Size = New System.Drawing.Size(116, 29)
-        Me.AutoSourceUseLabel.TabIndex = 22
-        Me.AutoSourceUseLabel.Text = "주석 사용"
-        Me.AutoSourceUseLabel.UseVisualStyleBackColor = True
-        '
-        'AutoSourceCountLabel
-        '
-        Me.AutoSourceCountLabel.AutoSize = True
-        Me.AutoSourceCountLabel.Location = New System.Drawing.Point(12, 147)
-        Me.AutoSourceCountLabel.Name = "AutoSourceCountLabel"
-        Me.AutoSourceCountLabel.Size = New System.Drawing.Size(129, 25)
-        Me.AutoSourceCountLabel.TabIndex = 5
-        Me.AutoSourceCountLabel.Text = "가져올 URL 수"
-        '
-        'AutoSourceCount
-        '
-        Me.AutoSourceCount.Location = New System.Drawing.Point(147, 145)
-        Me.AutoSourceCount.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
-        Me.AutoSourceCount.Name = "AutoSourceCount"
-        Me.AutoSourceCount.Size = New System.Drawing.Size(92, 31)
-        Me.AutoSourceCount.TabIndex = 4
-        '
-        'AutoSourceTimeReverse
-        '
-        Me.AutoSourceTimeReverse.AutoSize = True
-        Me.AutoSourceTimeReverse.Location = New System.Drawing.Point(17, 110)
-        Me.AutoSourceTimeReverse.Name = "AutoSourceTimeReverse"
-        Me.AutoSourceTimeReverse.Size = New System.Drawing.Size(194, 29)
-        Me.AutoSourceTimeReverse.TabIndex = 3
-        Me.AutoSourceTimeReverse.Text = "과거 글부터 카운트"
-        Me.AutoSourceTimeReverse.UseVisualStyleBackColor = True
-        '
-        'GetAutoSourceUrl
-        '
-        Me.GetAutoSourceUrl.Location = New System.Drawing.Point(17, 67)
-        Me.GetAutoSourceUrl.Name = "GetAutoSourceUrl"
-        Me.GetAutoSourceUrl.Size = New System.Drawing.Size(173, 37)
-        Me.GetAutoSourceUrl.TabIndex = 2
-        Me.GetAutoSourceUrl.Text = "관련 글 가져오기"
-        Me.GetAutoSourceUrl.UseVisualStyleBackColor = True
-        '
-        'AutoSourceUrlLabel
-        '
-        Me.AutoSourceUrlLabel.AutoSize = True
-        Me.AutoSourceUrlLabel.Location = New System.Drawing.Point(12, 33)
-        Me.AutoSourceUrlLabel.Name = "AutoSourceUrlLabel"
-        Me.AutoSourceUrlLabel.Size = New System.Drawing.Size(35, 25)
-        Me.AutoSourceUrlLabel.TabIndex = 1
-        Me.AutoSourceUrlLabel.Text = "Url"
-        '
-        'AutoSourceUrl
-        '
-        Me.AutoSourceUrl.Location = New System.Drawing.Point(53, 30)
-        Me.AutoSourceUrl.Name = "AutoSourceUrl"
-        Me.AutoSourceUrl.Size = New System.Drawing.Size(266, 31)
-        Me.AutoSourceUrl.TabIndex = 0
-        '
-        'LoginBox
-        '
-        Me.LoginBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LoginBox.Controls.Add(Me.LoginList)
-        Me.LoginBox.Location = New System.Drawing.Point(6, 30)
-        Me.LoginBox.Name = "LoginBox"
-        Me.LoginBox.Size = New System.Drawing.Size(322, 145)
-        Me.LoginBox.TabIndex = 22
-        Me.LoginBox.TabStop = False
-        Me.LoginBox.Text = "로그인 세션"
-        '
-        'LoginList
-        '
-        Me.LoginList.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LoginList.CheckBoxes = True
-        Me.LoginList.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Sites, Me.ID, Me.PWD, Me.URL})
-        Me.LoginList.Location = New System.Drawing.Point(6, 30)
-        Me.LoginList.Name = "LoginList"
-        Me.LoginList.Size = New System.Drawing.Size(310, 109)
-        Me.LoginList.TabIndex = 0
-        Me.LoginList.UseCompatibleStateImageBehavior = False
-        Me.LoginList.View = System.Windows.Forms.View.Details
-        '
-        'Sites
-        '
-        Me.Sites.Text = "사이트"
-        '
-        'ID
-        '
-        Me.ID.Text = "아이디"
-        '
-        'PWD
-        '
-        Me.PWD.Text = "패스워드"
-        '
-        'URL
-        '
-        Me.URL.Text = "주소"
-        '
-        'SourceBox
-        '
-        Me.SourceBox.Controls.Add(Me.AddSourceBtn)
-        Me.SourceBox.Controls.Add(Me.Source)
-        Me.SourceBox.Location = New System.Drawing.Point(12, 12)
-        Me.SourceBox.Name = "SourceBox"
-        Me.SourceBox.Size = New System.Drawing.Size(578, 154)
-        Me.SourceBox.TabIndex = 21
-        Me.SourceBox.TabStop = False
-        Me.SourceBox.Text = "소스"
-        '
-        'ResultBox
-        '
-        Me.ResultBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.SiteListBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.ResultBox.Controls.Add(Me.Log)
-        Me.ResultBox.Location = New System.Drawing.Point(12, 172)
-        Me.ResultBox.Name = "ResultBox"
-        Me.ResultBox.Size = New System.Drawing.Size(578, 254)
-        Me.ResultBox.TabIndex = 1
-        Me.ResultBox.TabStop = False
-        Me.ResultBox.Text = "수집 결과"
+        Me.SiteListBox.Controls.Add(Me.SiteListView)
+        Me.SiteListBox.Location = New System.Drawing.Point(12, 12)
+        Me.SiteListBox.Name = "SiteListBox"
+        Me.SiteListBox.Size = New System.Drawing.Size(539, 248)
+        Me.SiteListBox.TabIndex = 22
+        Me.SiteListBox.TabStop = False
+        Me.SiteListBox.Text = "소스 목록"
         '
-        'AddSourceBtn
+        'SiteListView
         '
-        Me.AddSourceBtn.Location = New System.Drawing.Point(497, 29)
-        Me.AddSourceBtn.Name = "AddSourceBtn"
-        Me.AddSourceBtn.Size = New System.Drawing.Size(75, 118)
-        Me.AddSourceBtn.TabIndex = 1
-        Me.AddSourceBtn.Text = "추가"
-        Me.AddSourceBtn.UseVisualStyleBackColor = True
+        Me.SiteListView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.SiteListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.UrlHeader, Me.StatusHeader})
+        Me.SiteListView.Location = New System.Drawing.Point(6, 30)
+        Me.SiteListView.Name = "SiteListView"
+        Me.SiteListView.Size = New System.Drawing.Size(527, 212)
+        Me.SiteListView.TabIndex = 0
+        Me.SiteListView.UseCompatibleStateImageBehavior = False
+        Me.SiteListView.View = System.Windows.Forms.View.Details
+        '
+        'UrlHeader
+        '
+        Me.UrlHeader.Text = "URL"
+        '
+        'StatusHeader
+        '
+        Me.StatusHeader.Text = "상태"
+        '
+        'ConsoleBox
+        '
+        Me.ConsoleBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ConsoleBox.Controls.Add(Me.Source)
+        Me.ConsoleBox.Location = New System.Drawing.Point(596, 268)
+        Me.ConsoleBox.Name = "ConsoleBox"
+        Me.ConsoleBox.Size = New System.Drawing.Size(439, 213)
+        Me.ConsoleBox.TabIndex = 1
+        Me.ConsoleBox.TabStop = False
+        Me.ConsoleBox.Text = "콘솔"
         '
         'Mainform
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(144.0!, 144.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
-        Me.ClientSize = New System.Drawing.Size(1284, 639)
-        Me.Controls.Add(Me.ResultBox)
-        Me.Controls.Add(Me.SourceBox)
+        Me.ClientSize = New System.Drawing.Size(1389, 599)
+        Me.Controls.Add(Me.ConsoleBox)
+        Me.Controls.Add(Me.SiteListBox)
+        Me.Controls.Add(Me.LogBox)
         Me.Controls.Add(Me.SaveBtn)
-        Me.Controls.Add(Me.OptionBox)
         Me.Controls.Add(Me.InfoBox)
         Me.Controls.Add(Me.SourceSettingBox)
         Me.Controls.Add(Me.SettingBox)
@@ -616,20 +566,16 @@ Partial Class Mainform
         Me.SettingBox.ResumeLayout(False)
         Me.SettingBox.PerformLayout()
         CType(Me.NumberCount, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Title, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TitleNumber, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SourceSettingBox.ResumeLayout(False)
         Me.SourceSettingBox.PerformLayout()
         Me.InfoBox.ResumeLayout(False)
         Me.InfoBox.PerformLayout()
-        Me.OptionBox.ResumeLayout(False)
-        Me.AutoSourceBox.ResumeLayout(False)
-        Me.AutoSourceBox.PerformLayout()
-        CType(Me.AutoSourceCount, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.LoginBox.ResumeLayout(False)
-        Me.SourceBox.ResumeLayout(False)
-        Me.SourceBox.PerformLayout()
-        Me.ResultBox.ResumeLayout(False)
-        Me.ResultBox.PerformLayout()
+        Me.LogBox.ResumeLayout(False)
+        Me.LogBox.PerformLayout()
+        Me.SiteListBox.ResumeLayout(False)
+        Me.ConsoleBox.ResumeLayout(False)
+        Me.ConsoleBox.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -641,7 +587,7 @@ Partial Class Mainform
     Friend WithEvents KeepCount As System.Windows.Forms.CheckBox
     Friend WithEvents Subchar As System.Windows.Forms.TextBox
     Friend WithEvents SubcharLabel As System.Windows.Forms.Label
-    Friend WithEvents Title As System.Windows.Forms.NumericUpDown
+    Friend WithEvents TitleNumber As System.Windows.Forms.NumericUpDown
     Friend WithEvents DirectionLabel As System.Windows.Forms.Label
     Friend WithEvents TitleLabel As System.Windows.Forms.Label
     Friend WithEvents GroupLabel As System.Windows.Forms.Label
@@ -657,30 +603,23 @@ Partial Class Mainform
     Friend WithEvents SourceTistory As System.Windows.Forms.RadioButton
     Friend WithEvents NumberCountLabel As System.Windows.Forms.Label
     Friend WithEvents NumberCount As System.Windows.Forms.NumericUpDown
-    Friend WithEvents OptionBox As System.Windows.Forms.GroupBox
-    Friend WithEvents SourceBox As System.Windows.Forms.GroupBox
-    Friend WithEvents ResultBox As System.Windows.Forms.GroupBox
-    Friend WithEvents LoginBox As System.Windows.Forms.GroupBox
-    Friend WithEvents LoginList As System.Windows.Forms.ListView
-    Friend WithEvents Sites As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ID As System.Windows.Forms.ColumnHeader
-    Friend WithEvents PWD As System.Windows.Forms.ColumnHeader
-    Friend WithEvents URL As System.Windows.Forms.ColumnHeader
+    Friend WithEvents LogBox As System.Windows.Forms.GroupBox
     Friend WithEvents SourceWordpress As System.Windows.Forms.RadioButton
     Friend WithEvents SourceEgloos As System.Windows.Forms.RadioButton
     Friend WithEvents UseSourceUrl As System.Windows.Forms.CheckBox
-    Friend WithEvents AutoSourceBox As System.Windows.Forms.GroupBox
-    Friend WithEvents AutoSourceUseLabel As System.Windows.Forms.CheckBox
-    Friend WithEvents AutoSourceCountLabel As System.Windows.Forms.Label
-    Friend WithEvents AutoSourceCount As System.Windows.Forms.NumericUpDown
-    Friend WithEvents AutoSourceTimeReverse As System.Windows.Forms.CheckBox
-    Friend WithEvents GetAutoSourceUrl As System.Windows.Forms.Button
-    Friend WithEvents AutoSourceUrlLabel As System.Windows.Forms.Label
-    Friend WithEvents AutoSourceUrl As System.Windows.Forms.TextBox
     Friend WithEvents SourceFC2 As System.Windows.Forms.RadioButton
     Friend WithEvents useFirstUrlSource As System.Windows.Forms.CheckBox
     Friend WithEvents Deleted As System.Windows.Forms.TextBox
     Friend WithEvents DeletedLabel As System.Windows.Forms.Label
     Friend WithEvents AddSourceBtn As System.Windows.Forms.Button
+    Friend WithEvents SiteListBox As System.Windows.Forms.GroupBox
+    Friend WithEvents SiteListView As System.Windows.Forms.ListView
+    Friend WithEvents UrlHeader As System.Windows.Forms.ColumnHeader
+    Friend WithEvents StatusHeader As System.Windows.Forms.ColumnHeader
+    Friend WithEvents URLLabel As System.Windows.Forms.Label
+    Friend WithEvents TitleFormat As System.Windows.Forms.TextBox
+    Friend WithEvents TitleFormatLabel As System.Windows.Forms.Label
+    Friend WithEvents Url As System.Windows.Forms.TextBox
+    Friend WithEvents ConsoleBox As System.Windows.Forms.GroupBox
 
 End Class

@@ -16,8 +16,41 @@ Public Class Mainform
 
     '// 소스 추가
     Private Sub AddSourceBtn_Click(sender As Object, e As EventArgs) Handles AddSourceBtn.Click
+        Dim item As New ListViewItem
+        'item.Tag = New SingleURL(GroupInput.Text, TitleInput.Text, UrlTypeController.UrlType.Unknown)
+        item.Tag = New testClass("test1", "test2", item)
+        item.Name = "test"
+        'SourceInput.Items.Add(item)
+        Log.Text = Log.Text + item.ToString
+        SiteListView.Items.Add(item)
 
     End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs)
+        For Each x As ListViewItem In SiteListView.Items
+            DirectCast(x.Tag, testClass).testFunc()
+        Next
+    End Sub
+    Class testClass
+        Private a As String, b As String
+        Private listviewItem As System.Windows.Forms.ListViewItem
+        Public Sub New(_a As String, _b As String, ByRef item As ListViewItem)
+            a = _a
+            b = _b
+            listviewItem = item
+            item.Text = a
+            Dim x As New ListViewItem.ListViewSubItem
+            x.Name = "test"
+            x.Text = b
+            item.SubItems.Add(x)
+            item.SubItems.Add(x)
+        End Sub
+
+        Public Sub testFunc()
+            b = "newB"
+            listviewItem.SubItems.Item("test").Text = b
+        End Sub
+    End Class
 
     '프로세스 시작
     Private Sub SaveBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveBtn.Click
@@ -29,7 +62,7 @@ Public Class Mainform
 
         '// title 텍스트 설정
         Dim PostTitle As String = FileSystem.CleanFileName(Subchar.Text)
-        Dim TitleCount As Integer = Me.Title.Value
+        Dim TitleCount As Integer = Me.TitleNumber.Value
 
         If (UseSourceUrl.Checked = True) Then
             For Each eachSource As String In Source.Text.Split(vbCrLf)
@@ -48,9 +81,9 @@ Public Class Mainform
                     Try
                         '// 숫자로 시도
                         If (titleReplace.Contains(".")) Then
-                            Title = GroupFormat & " " & Format(CDbl(titleReplace), TitleFormat + ".0") & PostTitle
+                            Title = GroupFormat & " " & Format(CDbl(titleReplace), getTitleFormat + ".0") & PostTitle
                         Else
-                            Title = GroupFormat & " " & Format(CInt(titleReplace), TitleFormat) & PostTitle
+                            Title = GroupFormat & " " & Format(CInt(titleReplace), getTitleFormat) & PostTitle
                         End If
                     Catch ex As Exception
                         '// 문자 처리
@@ -58,7 +91,7 @@ Public Class Mainform
                     End Try
                 Else
                     '// 일반적인 숫자로 처리
-                    Title = GroupFormat & " " & Format(TitleCount, TitleFormat) & Subchar.Text
+                    Title = GroupFormat & " " & Format(TitleCount, getTitleFormat) & Subchar.Text
                 End If
 
                 newUrl = New SingleURL(Group, Title, eachSource)
@@ -66,7 +99,7 @@ Public Class Mainform
                 TitleCount += 1
             Next
         Else
-            newUrl = New SingleURL(Group, Group & " " & Format(Title.Value, TitleFormat) & Subchar.Text, UrlTypeController.UrlType.Unknown)
+            newUrl = New SingleURL(Group, Group & " " & Format(TitleNumber.Value, getTitleFormat) & Subchar.Text, UrlTypeController.UrlType.Unknown)
             newUrl.Source = Source.Text
             urlDownloadController.addSingleUrl(newUrl)
         End If
@@ -133,20 +166,30 @@ Public Class Mainform
     End Sub
 
     '//타이틀 입력 후 엔터를 입력하는 경우 저장 버튼을 클릭시킨다
-    Private Sub Title_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles Title.KeyPress
+    Private Sub Title_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TitleNumber.KeyPress
         If e.KeyChar = ChrW(Keys.Enter) Then
             SaveBtn_Click(sender, e)
         End If
     End Sub
 
-    Private Sub Group_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Group.TextChanged, Title.ValueChanged, Subchar.TextChanged
-        Dim GroupText = Group.Text
-        If GroupText = "" Then GroupText = "단편"
-        Sample.Text = GroupText & " " & Format(Title.Value, TitleFormat) & Subchar.Text
-
+    Private Sub Value_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Group.TextChanged, TitleNumber.ValueChanged, Subchar.TextChanged, NumberCount.ValueChanged, TitleFormat.TextChanged
+        Dim Format As String = ""
+        For i = 1 To NumberCount.Value
+            Format = Format & "0"
+        Next
+        Sample.Text = RenewSampleText(TitleFormat.Text, Group.Text, TitleNumber.Value, Format, Subchar.Text)
     End Sub
 
-    Public ReadOnly Property TitleFormat As String
+    Private Function RenewSampleText(ByVal TitleFormat As String, Group As String, Number As Integer, NumberFormat As String, Subchar As String) As String
+        Dim Result = TitleFormat
+        Result = Result.Replace("%G", Group)
+        Result = Result.Replace("%n", Format(Number, NumberFormat))
+        Result = Result.Replace("%s", Subchar)
+
+        Return FileSystem.CleanFileName(Result)
+    End Function
+
+    Public ReadOnly Property getTitleFormat As String
         Get
             Dim x As String = ""
             For i = 1 To NumberCount.Value
