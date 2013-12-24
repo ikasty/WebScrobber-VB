@@ -16,41 +16,27 @@ Public Class Mainform
 
     '// 소스 추가
     Private Sub AddSourceBtn_Click(sender As Object, e As EventArgs) Handles AddSourceBtn.Click
-        Dim item As New ListViewItem
-        'item.Tag = New SingleURL(GroupInput.Text, TitleInput.Text, UrlTypeController.UrlType.Unknown)
-        item.Tag = New testClass("test1", "test2", item)
-        item.Name = "test"
-        'SourceInput.Items.Add(item)
-        Log.Text = Log.Text + item.ToString
+        Dim NewSingleUrl As SingleURL
+        Dim Title As String = getTitleText(TitleFormat.Text, Group.Text, TitleNumber.Value, NumberCount.Value, Subchar.Text)
+        NewSingleUrl = New SingleURL(Group.Text, Title, Url.Text, useFirstUrlSource.Checked)
+        UrlListController.getSingleton.addSingleUrl(NewSingleUrl)
+
+        Dim item As New ListViewItem(Url.Text)
+        item.Tag = NewSingleUrl
+        item.Name = "URL"
+        item.SubItems.Add(
+            New ListViewItem.ListViewSubItem(item, Title) _
+            .Name("Title"))
+
         SiteListView.Items.Add(item)
 
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs)
         For Each x As ListViewItem In SiteListView.Items
-            DirectCast(x.Tag, testClass).testFunc()
+            'DirectCast(x.Tag, testClass).testFunc()
         Next
     End Sub
-    Class testClass
-        Private a As String, b As String
-        Private listviewItem As System.Windows.Forms.ListViewItem
-        Public Sub New(_a As String, _b As String, ByRef item As ListViewItem)
-            a = _a
-            b = _b
-            listviewItem = item
-            item.Text = a
-            Dim x As New ListViewItem.ListViewSubItem
-            x.Name = "test"
-            x.Text = b
-            item.SubItems.Add(x)
-            item.SubItems.Add(x)
-        End Sub
-
-        Public Sub testFunc()
-            b = "newB"
-            listviewItem.SubItems.Item("test").Text = b
-        End Sub
-    End Class
 
     '프로세스 시작
     Private Sub SaveBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveBtn.Click
@@ -95,13 +81,13 @@ Public Class Mainform
                 End If
 
                 newUrl = New SingleURL(Group, Title, eachSource)
-                urlDownloadController.addSingleUrl(newUrl)
+                UrlListController.getSingleton.addSingleUrl(newUrl)
                 TitleCount += 1
             Next
         Else
             newUrl = New SingleURL(Group, Group & " " & Format(TitleNumber.Value, getTitleFormat) & Subchar.Text, UrlTypeController.UrlType.Unknown)
             newUrl.Source = Source.Text
-            urlDownloadController.addSingleUrl(newUrl)
+            UrlListController.getSingleton.addSingleUrl(newUrl)
         End If
 
         ''//DEPRECATED
@@ -177,10 +163,10 @@ Public Class Mainform
         For i = 1 To NumberCount.Value
             Format = Format & "0"
         Next
-        Sample.Text = RenewSampleText(TitleFormat.Text, Group.Text, TitleNumber.Value, Format, Subchar.Text)
+        Sample.Text = getTitleText(TitleFormat.Text, Group.Text, TitleNumber.Value, Format, Subchar.Text)
     End Sub
 
-    Private Function RenewSampleText(ByVal TitleFormat As String, Group As String, Number As Integer, NumberFormat As String, Subchar As String) As String
+    Private Function getTitleText(ByVal TitleFormat As String, Group As String, Number As Integer, NumberFormat As String, Subchar As String) As String
         Dim Result = TitleFormat
         Result = Result.Replace("%G", Group)
         Result = Result.Replace("%n", Format(Number, NumberFormat))

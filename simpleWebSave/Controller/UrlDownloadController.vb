@@ -3,70 +3,47 @@
 ' 다운받을 Url 목록을 관리하는 클래스
 ' Singleton 패턴을 사용하여 UrlDownloadController.getSingleton()으로 객체를 얻어와야 한다.
 Public NotInheritable Class UrlDownloadController
-    ' 생성자
-    Private Sub New()
-    End Sub
 
     ' 이 클래스의 Singleton
-    Private Shared Singleton As New UrlDownloadController()
-
+    Private Shared Singleton As UrlDownloadController
     ' Singleton을 리턴해주는 함수
     ' @return UrlDownloadController
     Public Shared Function getSingleton() As UrlDownloadController
+        If Singleton Is Nothing Then Singleton = New UrlDownloadController
         Return Singleton
     End Function
 
-    ' 수집을 기다리는 url
-    Private Shared urlList As New Queue(Of SingleURL)
+    ' url로부터 이미지 태그를 받아옴
+    Private getTagThreads() As Thread
+    ' 이미지 태그로부터 파일을 받아옴
+    Private getImageThread As Thread
 
-    ' 대기 목록에 url 추가
-    Public Sub addSingleUrl(ByRef URL As SingleURL)
-        Monitor.Enter(urlList)
-        urlList.Enqueue(URL)
-        Monitor.Exit(urlList)
-    End Sub
+    ' 태그 수집 사용여부
+    Private runningTagThreads As Boolean = False
+    ' 이미지 다운로드 사용여부
+    Private runningImageThread As Boolean = False
 
-    ' url을 리턴하는 함수
-    ' @return SingleUrl
-    Private Shared Function getSingleUrl() As SingleURL
-        Dim returnUrl As SingleURL
-        SyncLock urlList
-            If urlList.Count = 0 Then
-                returnUrl = Nothing
-            Else
-                returnUrl = urlList.Dequeue()
-            End If
-        End SyncLock
+    ' 생성자
+    Private Sub New()
+        Dim totalImageTagThreads As Integer
 
-        Return returnUrl
-    End Function
+        totalImageTagThreads = Environment.ProcessorCount
+        If totalImageTagThreads > 6 Then totalImageTagThreads = 6
 
-
-    ' url로부터 이미지를 받아옴
-    Private Shared getImageThreads() As Thread
-    Private Shared ReadOnly totalThreadsCount As Integer
-    Private Shared liveThreadsCount As Integer = 0
-    Private Shared runningThreads As Boolean = True
-
-    Shared Sub New()
-        totalThreadsCount = Environment.ProcessorCount
-        If totalThreadsCount > 6 Then totalThreadsCount = 6
-        
-        ReDim getImageThreads(totalThreadsCount)
-        For Each getImageThread As Thread In getImageThreads
-            getImageThread = New Thread(AddressOf getImageFromSource)
+        ReDim getTagThreads(totalImageTagThreads)
+        For Each getTagThread As Thread In getTagThreads
+            getTagThread = New Thread(AddressOf getTagFromUrl)
         Next
+
+        getImageThread = New Thread(AddressOf getImageFileFromSource)
     End Sub
 
-    ' ImageDownloader 객체
-    'Private Shared ImageDownloadController As ImageDownloadController = ImageDownloadController.getSingleton()
-    Private Shared Sub getImageFromSource()
+    Private Sub getTagFromUrl()
         Dim StartPos As Integer, FinishPos As Integer
         Dim Link As String = ""
 
-        liveThreadsCount += 1
-        While (runningThreads)
-            Dim singleUrl As SingleURL = getSingleUrl()
+        While (runningTagThreads)
+            Dim singleUrl As SingleURL = UrlListController.getSingleton.getSingleUrl()
             If (singleUrl Is Nothing) Then
                 Exit While
             End If
@@ -89,9 +66,40 @@ Public NotInheritable Class UrlDownloadController
                 singleUrl.addImageLink(Link)
             Loop
 
-            'ImageDownloadController.push(singleUrl)
+            addUrl(singleUrl)
+
         End While
-        liveThreadsCount -= 1
+    End Sub
+
+    Private Shared urlDownloadList As New Queue(Of SingleURL)
+    Private Shared Sub addUrl(ByRef singleUrl As SingleURL)
+        SyncLock urlDownloadList
+            urlDownloadList.Enqueue(singleUrl)
+        End SyncLock
+    End Sub
+    Private Shared Function getUrl() As SingleURL
+        Dim ReturnUrl As SingleURL
+        SyncLock urlDownloadList
+            If urlDownloadList.Count = 0 Then
+                ReturnUrl = Nothing
+            Else
+                ReturnUrl = urlDownloadList.Dequeue()
+            End If
+        End SyncLock
+
+        Return ReturnUrl
+    End Function
+
+
+    Private Sub getImageFileFromSource()
+        While (runningTagThreads)
+            Dim TargetUrl As SingleURL = urlDownloadList.Dequeue()
+
+
+
+
+        End While
+
     End Sub
 
     Private Shared Sub Notice(ByVal Message As String)

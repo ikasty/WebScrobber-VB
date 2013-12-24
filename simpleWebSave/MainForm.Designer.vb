@@ -76,48 +76,43 @@ Partial Class Mainform
         '
         'Source
         '
-        Me.Source.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Source.Location = New System.Drawing.Point(6, 31)
+        Me.Source.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Source.Location = New System.Drawing.Point(3, 27)
         Me.Source.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.Source.MaxLength = 1024768
         Me.Source.Multiline = True
         Me.Source.Name = "Source"
         Me.Source.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.Source.Size = New System.Drawing.Size(427, 175)
+        Me.Source.Size = New System.Drawing.Size(572, 172)
         Me.Source.TabIndex = 0
         '
         'SaveBtn
         '
-        Me.SaveBtn.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.SaveBtn.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.SaveBtn.Font = New System.Drawing.Font("맑은 고딕", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.SaveBtn.Location = New System.Drawing.Point(596, 488)
+        Me.SaveBtn.Location = New System.Drawing.Point(3, 199)
         Me.SaveBtn.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.SaveBtn.Name = "SaveBtn"
-        Me.SaveBtn.Size = New System.Drawing.Size(439, 98)
+        Me.SaveBtn.Size = New System.Drawing.Size(572, 51)
         Me.SaveBtn.TabIndex = 1
         Me.SaveBtn.Text = "실행"
         Me.SaveBtn.UseVisualStyleBackColor = True
         '
         'Log
         '
-        Me.Log.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Log.Location = New System.Drawing.Point(6, 31)
+        Me.Log.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Log.Location = New System.Drawing.Point(3, 27)
         Me.Log.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.Log.MaxLength = 1024768
         Me.Log.Multiline = True
         Me.Log.Name = "Log"
         Me.Log.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.Log.Size = New System.Drawing.Size(466, 210)
+        Me.Log.Size = New System.Drawing.Size(392, 297)
         Me.Log.TabIndex = 7
         '
         'SettingBox
         '
-        Me.SettingBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.SettingBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SettingBox.Controls.Add(Me.Url)
         Me.SettingBox.Controls.Add(Me.URLLabel)
         Me.SettingBox.Controls.Add(Me.TitleFormat)
@@ -139,7 +134,7 @@ Partial Class Mainform
         Me.SettingBox.Controls.Add(Me.Group)
         Me.SettingBox.Controls.Add(Me.Direction)
         Me.SettingBox.Font = New System.Drawing.Font("맑은 고딕", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.SettingBox.Location = New System.Drawing.Point(12, 267)
+        Me.SettingBox.Location = New System.Drawing.Point(416, 13)
         Me.SettingBox.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.SettingBox.Name = "SettingBox"
         Me.SettingBox.Padding = New System.Windows.Forms.Padding(3, 4, 3, 4)
@@ -360,7 +355,7 @@ Partial Class Mainform
         Me.SourceSettingBox.Controls.Add(Me.SourceTumbler)
         Me.SourceSettingBox.Controls.Add(Me.SourceDefault)
         Me.SourceSettingBox.Controls.Add(Me.SourceNaver)
-        Me.SourceSettingBox.Location = New System.Drawing.Point(1041, 12)
+        Me.SourceSettingBox.Location = New System.Drawing.Point(1000, 12)
         Me.SourceSettingBox.Name = "SourceSettingBox"
         Me.SourceSettingBox.Size = New System.Drawing.Size(336, 210)
         Me.SourceSettingBox.TabIndex = 16
@@ -465,7 +460,7 @@ Partial Class Mainform
         '
         Me.InfoBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.InfoBox.Controls.Add(Me.Info)
-        Me.InfoBox.Location = New System.Drawing.Point(1041, 228)
+        Me.InfoBox.Location = New System.Drawing.Point(1000, 228)
         Me.InfoBox.Name = "InfoBox"
         Me.InfoBox.Size = New System.Drawing.Size(336, 194)
         Me.InfoBox.TabIndex = 19
@@ -486,7 +481,7 @@ Partial Class Mainform
         Me.Info.Size = New System.Drawing.Size(324, 158)
         Me.Info.TabIndex = 0
         Me.Info.Text = "이 프로그램의 사용상의 법적 책임은 사용자에게 있습니다." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "웹 상의 이미지를 쉽게 저장해 정리해주는 프로그램입니다. 만화 등을 긁어올 때 유용" & _
-    "하게 사용됩니다." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "사이트의 주소를 한 줄에 하나씩 입력하거나, 또는 HTML 소스를 복사해 붙여넣으면 됩니다." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "버전 4.3"
+    "하게 사용됩니다." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "사이트의 주소를 한 줄에 하나씩 입력하거나, 또는 HTML 소스를 복사해 붙여넣으면 됩니다." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "버전 5.0"
         '
         'LogBox
         '
@@ -494,34 +489,32 @@ Partial Class Mainform
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.LogBox.Controls.Add(Me.Log)
-        Me.LogBox.Location = New System.Drawing.Point(557, 12)
+        Me.LogBox.Location = New System.Drawing.Point(12, 265)
         Me.LogBox.Name = "LogBox"
-        Me.LogBox.Size = New System.Drawing.Size(478, 248)
+        Me.LogBox.Size = New System.Drawing.Size(398, 327)
         Me.LogBox.TabIndex = 1
         Me.LogBox.TabStop = False
         Me.LogBox.Text = "로그"
         '
         'SiteListBox
         '
-        Me.SiteListBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.SiteListBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SiteListBox.Controls.Add(Me.SiteListView)
         Me.SiteListBox.Location = New System.Drawing.Point(12, 12)
         Me.SiteListBox.Name = "SiteListBox"
-        Me.SiteListBox.Size = New System.Drawing.Size(539, 248)
+        Me.SiteListBox.Size = New System.Drawing.Size(398, 248)
         Me.SiteListBox.TabIndex = 22
         Me.SiteListBox.TabStop = False
         Me.SiteListBox.Text = "소스 목록"
         '
         'SiteListView
         '
-        Me.SiteListView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SiteListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.UrlHeader, Me.StatusHeader})
-        Me.SiteListView.Location = New System.Drawing.Point(6, 30)
+        Me.SiteListView.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SiteListView.Location = New System.Drawing.Point(3, 27)
         Me.SiteListView.Name = "SiteListView"
-        Me.SiteListView.Size = New System.Drawing.Size(527, 212)
+        Me.SiteListView.Size = New System.Drawing.Size(392, 218)
         Me.SiteListView.TabIndex = 0
         Me.SiteListView.UseCompatibleStateImageBehavior = False
         Me.SiteListView.View = System.Windows.Forms.View.Details
@@ -536,12 +529,13 @@ Partial Class Mainform
         '
         'ConsoleBox
         '
-        Me.ConsoleBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.ConsoleBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ConsoleBox.Controls.Add(Me.Source)
-        Me.ConsoleBox.Location = New System.Drawing.Point(596, 268)
+        Me.ConsoleBox.Controls.Add(Me.SaveBtn)
+        Me.ConsoleBox.Location = New System.Drawing.Point(416, 339)
         Me.ConsoleBox.Name = "ConsoleBox"
-        Me.ConsoleBox.Size = New System.Drawing.Size(439, 213)
+        Me.ConsoleBox.Size = New System.Drawing.Size(578, 253)
         Me.ConsoleBox.TabIndex = 1
         Me.ConsoleBox.TabStop = False
         Me.ConsoleBox.Text = "콘솔"
@@ -550,11 +544,11 @@ Partial Class Mainform
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(144.0!, 144.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
-        Me.ClientSize = New System.Drawing.Size(1389, 599)
+        Me.AutoScroll = True
+        Me.ClientSize = New System.Drawing.Size(1348, 599)
         Me.Controls.Add(Me.ConsoleBox)
         Me.Controls.Add(Me.SiteListBox)
         Me.Controls.Add(Me.LogBox)
-        Me.Controls.Add(Me.SaveBtn)
         Me.Controls.Add(Me.InfoBox)
         Me.Controls.Add(Me.SourceSettingBox)
         Me.Controls.Add(Me.SettingBox)
@@ -562,7 +556,7 @@ Partial Class Mainform
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.MinimumSize = New System.Drawing.Size(938, 617)
         Me.Name = "Mainform"
-        Me.Text = "사이트 이미지 수집기 Ver.4.3"
+        Me.Text = "사이트 이미지 수집기 Ver.5.0"
         Me.SettingBox.ResumeLayout(False)
         Me.SettingBox.PerformLayout()
         CType(Me.NumberCount, System.ComponentModel.ISupportInitialize).EndInit()
