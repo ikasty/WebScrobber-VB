@@ -82,14 +82,15 @@
     End Function
 
     ' 개별 이미지를 저장하는 큐
-    Private imageList As List(Of String)
+    Private imageList As Queue(Of String)
     Public Sub addImageLink(ByVal imageUrl As String)
-        imageList.Add(imageUrl)
+        imageList.Enqueue(imageUrl)
     End Sub
     Public Function getImage() As String
-        Static currentImage As Integer = -1
-        currentImage += 1
-        Return imageList.Item(currentImage)
+        Return imageList.Dequeue()
+    End Function
+    Public Function isEmptyImage() As Boolean
+        Return imageList.Count = 0
     End Function
 
 

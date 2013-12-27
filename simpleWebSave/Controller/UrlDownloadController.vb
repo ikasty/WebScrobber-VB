@@ -93,10 +93,12 @@ Public NotInheritable Class UrlDownloadController
 
     Private Sub getImageFileFromSource()
         While (runningTagThreads)
-            Dim TargetUrl As SingleURL = urlDownloadList.Dequeue()
+            Dim TargetUrl As SingleURL = getUrl()
+            If TargetUrl Is Nothing Then Exit While
 
+            While TargetUrl.isEmptyImage And runningTagThreads
 
-
+            End While
 
         End While
 

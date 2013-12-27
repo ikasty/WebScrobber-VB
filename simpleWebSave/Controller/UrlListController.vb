@@ -10,12 +10,13 @@ Public NotInheritable Class UrlListController
     End Function
 
     ' 수집을 기다리는 url
-    Private Shared urlList As New Queue(Of SingleURL)
+    Private Shared urlList As New List(Of SingleURL)
+    Private Shared index As Integer = 0
 
     ' 대기 목록에 url 추가
     Public Sub addSingleUrl(ByRef URL As SingleURL)
         SyncLock urlList
-            urlList.Enqueue(URL)
+            urlList.Add(URL)
         End SyncLock
     End Sub
 
@@ -27,7 +28,8 @@ Public NotInheritable Class UrlListController
             If urlList.Count = 0 Then
                 returnUrl = Nothing
             Else
-                returnUrl = urlList.Dequeue()
+                returnUrl = urlList(index)
+                index = index + 1
             End If
         End SyncLock
 
