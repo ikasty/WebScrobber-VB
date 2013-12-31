@@ -25,7 +25,7 @@ Public NotInheritable Class UrlListController
     Public Function getSingleUrl() As SingleURL
         Dim returnUrl As SingleURL
         SyncLock urlList
-            If urlList.Count = 0 Then
+            If urlList.Count = index Then
                 returnUrl = Nothing
             Else
                 returnUrl = urlList(index)

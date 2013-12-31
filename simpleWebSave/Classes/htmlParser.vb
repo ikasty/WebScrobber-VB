@@ -6,7 +6,7 @@
         Return HtmlController.getHtml.getHtml(singleURL.URL, AddressOf Mainform.SendNotice)
     End Function
 
-    Public Shared Function CleaningHtml(ByVal singleURL As SingleURL, Optional ByVal useFirstUrl As Boolean = False)
+    Public Shared Function CleaningHtml(ByVal singleURL As SingleURL)
         Dim source As String = singleURL.Source
 
         ' frame으로 게시물의 핵심 부분 소스가 막혀있는 경우
@@ -36,7 +36,7 @@
         UrlTypeController.getMoreTag(source, singleURL.Type)
 
         ' 본문에서 처음 나오는 a태그를 소스로 사용하는지 체크
-        If (singleURL.useFirstUrl And useFirstUrl) Then
+        If (singleURL.useFirstUrl And singleURL.useFirstUrl) Then
             singleURL.useFirstUrl = False
             If (source.Contains("<a")) Then
                 Dim StartPos As Integer = source.IndexOf("<a", 0) + "<a".Length

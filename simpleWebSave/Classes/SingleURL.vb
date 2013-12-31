@@ -3,21 +3,33 @@
     '//소스의 첫 url 가져올 지 여부
     Public useFirstUrl As Boolean = False
     '//소스의 그룹과 타이틀
-    Public ReadOnly Group As String = "", Title As String
+    Public ReadOnly Group As String
+    Public ReadOnly Title As String
+    Public ReadOnly Directory As String
+    Public ReadOnly ErrDir As String
+
 
     ' Constructor
-    Public Sub New(ByVal GROUP As String, ByVal TITLE As String, ByVal TYPE As UrlTypeController.UrlType, Optional ByVal useFirstUrl As Boolean = False)
-        Me.Group = GROUP
-        Me.Title = TITLE
+    Public Sub New _
+        (ByVal GROUP As String, ByVal TITLE As String, Directory As String, ErrDir As String, _
+         Optional ByVal TYPE As UrlTypeController.UrlType = UrlTypeController.UrlType.Unknown, _
+         Optional ByVal useFirstUrl As Boolean = False)
+
+        Me.Group = FileSystem.CleanFileName(GROUP)
+        Me.Title = FileSystem.CleanFileName(TITLE)
         Me.Type = TYPE
         Me.useFirstUrl = useFirstUrl
+        Me.Directory = FileSystem.CleanDirectoryName(Directory)
+        Me.ErrDir = FileSystem.CleanDirectoryName(ErrDir)
     End Sub
-    Public Sub New(ByVal GROUP As String, ByVal TITLE As String, ByVal URL As String, Optional ByVal useFirstUrl As Boolean = False)
-        Me.Group = GROUP
-        Me.Title = TITLE
+    Public Sub New _
+        (ByVal GROUP As String, ByVal TITLE As String, ByVal URL As String, Directory As String, ErrDir As String, _
+         Optional ByVal useFirstUrl As Boolean = False)
+
+        Me.New(GROUP, TITLE, Directory, ErrDir, , useFirstUrl)
         Me.URL = URL
         Me.Type = UrlTypeController.getUrlTypeFromURL(URL)
-        Me.useFirstUrl = useFirstUrl
+
     End Sub
 
 
@@ -82,22 +94,31 @@
     End Function
 
     ' 개별 이미지를 저장하는 큐
-    Private imageList As Queue(Of String)
+    Private imageList As New List(Of String)
+    Private index As Integer = 0
     Public Sub addImageLink(ByVal imageUrl As String)
-        imageList.Enqueue(imageUrl)
+        imageList.Add(imageUrl)
     End Sub
-    Public Function getImage() As String
-        Return imageList.Dequeue()
+    Public Function getNextImage() As String
+        index = index + 1
+        Return imageList(index - 1)
     End Function
+    Public Sub resetImageIndex()
+        index = 0
+    End Sub
     Public Function isEmptyImage() As Boolean
-        Return imageList.Count = 0
+        Return imageList.Count = index
     End Function
 
 
     Public Class ErrorImage
-        Public url As String, name As String, err As String
+        Public url As String, name As String
+        Public Sub New(url As String, name As String)
+            Me.url = url
+            Me.name = name
+        End Sub
     End Class
-    Private errorImageList As List(Of ErrorImage)
+    Private errorImageList As New List(Of ErrorImage)
     Public Sub addErrorImage(ByVal ErrorImage As ErrorImage)
         errorImageList.Add(ErrorImage)
     End Sub

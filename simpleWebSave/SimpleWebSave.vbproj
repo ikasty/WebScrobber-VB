@@ -112,7 +112,7 @@
     <Compile Include="Deprecated\GetHtmlSource.vb" />
     <Compile Include="Deprecated\GetImageUrl.vb" />
     <Compile Include="Deprecated\SaveImageController.vb" />
-    <Compile Include="Includes\Files.vb" />
+    <Compile Include="Includes\FileSystem.vb" />
     <Compile Include="Includes\HtmlController.vb" />
     <Compile Include="Includes\PlaceholderTextBox.Designer.vb">
       <DependentUpon>PlaceholderTextBox.vb</DependentUpon>

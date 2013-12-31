@@ -11,14 +11,11 @@ Public Class Mainform
     Private Delegate Sub DelegateFinishSave(ByVal KeepCount As Boolean)
     Private Finish As New DelegateFinishSave(AddressOf FinishSave)
 
-    '//URL 관리 클래스
-    Private urlDownloadController As UrlDownloadController = urlDownloadController.getSingleton()
-
     '// 소스 추가
     Private Sub AddSourceBtn_Click(sender As Object, e As EventArgs) Handles AddSourceBtn.Click
         Dim NewSingleUrl As SingleURL
         Dim Title As String = getTitleText(TitleFormat.Text, Group.Text, TitleNumber.Value, NumberCount.Value, Subchar.Text)
-        NewSingleUrl = New SingleURL(Group.Text, Title, Url.Text, useFirstUrlSource.Checked)
+        NewSingleUrl = New SingleURL(Group.Text, Title, Url.Text, Directory.Text, ErrorDirectory.Text, useFirstUrlSource.Checked)
         UrlListController.getSingleton.addSingleUrl(NewSingleUrl)
 
         Dim item As New ListViewItem(Url.Text)
@@ -26,19 +23,19 @@ Public Class Mainform
         item.Name = "URL"
         item.SubItems.Add(
             New ListViewItem.ListViewSubItem(item, Title) _
-            .Name("Title"))
+            .Name = "Title")
 
         SiteListView.Items.Add(item)
 
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs)
-        For Each x As ListViewItem In SiteListView.Items
-            'DirectCast(x.Tag, testClass).testFunc()
-        Next
-    End Sub
+    'Private Sub Button1_Click(sender As Object, e As EventArgs)
+    '    For Each x As ListViewItem In SiteListView.Items
+    '        'DirectCast(x.Tag, testClass).testFunc()
+    '    Next
+    'End Sub
 
-    '프로세스 시작
+    '커맨드로 소스 추가
     Private Sub SaveBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveBtn.Click
         Dim newUrl As SingleURL
         '// group 텍스트 설정
@@ -80,12 +77,12 @@ Public Class Mainform
                     Title = GroupFormat & " " & Format(TitleCount, getTitleFormat) & Subchar.Text
                 End If
 
-                newUrl = New SingleURL(Group, Title, eachSource)
+                newUrl = New SingleURL(Group, Title, eachSource, Directory.Text, ErrorDirectory.Text)
                 UrlListController.getSingleton.addSingleUrl(newUrl)
                 TitleCount += 1
             Next
         Else
-            newUrl = New SingleURL(Group, Group & " " & Format(TitleNumber.Value, getTitleFormat) & Subchar.Text, UrlTypeController.UrlType.Unknown)
+            newUrl = New SingleURL(Group, Group & " " & Format(TitleNumber.Value, getTitleFormat) & Subchar.Text, Directory.Text, ErrorDirectory.Text, UrlTypeController.UrlType.Unknown)
             newUrl.Source = Source.Text
             UrlListController.getSingleton.addSingleUrl(newUrl)
         End If
@@ -186,8 +183,16 @@ Public Class Mainform
     End Property
 
     Private Sub Mainform_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Direction.Text = Environment.CurrentDirectory() + "\Manga"
-        Deleted.Text = Environment.CurrentDirectory() + "\Deleted Manga"
+        Directory.Text = Environment.CurrentDirectory() + "\Manga"
+        ErrorDirectory.Text = Environment.CurrentDirectory() + "\Deleted Manga"
     End Sub
 
+    Private Sub StartCrawling_Click(sender As Object, e As EventArgs) Handles StartCrawling.Click
+        UrlDownloadController.getSingleton.startTagThreads()
+    End Sub
+
+    '다운로드 실행
+    Private Sub StartDownload_Click(sender As Object, e As EventArgs) Handles StartDownload.Click
+        UrlDownloadController.getSingleton.startFileThread()
+    End Sub
 End Class

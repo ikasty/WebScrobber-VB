@@ -53,8 +53,8 @@ Public Class GetImageUrl
         '//form에서 필요한 텍스트들을 구한다
         FormSource = Mainform.Source.Text
 
-        Root = Mainform.Direction.Text
-        Deleted = Mainform.Deleted.Text
+        Root = Mainform.Directory.Text
+        Deleted = Mainform.ErrorDirectory.Text
         Groupname = DelChar(Mainform.Group.Text)
         Title = Mainform.TitleNumber.Value
         PostTitle = DelChar(Mainform.Subchar.Text)

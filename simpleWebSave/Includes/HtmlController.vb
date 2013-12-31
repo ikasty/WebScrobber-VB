@@ -40,9 +40,9 @@ Namespace HtmlController
         Public Enum Options
             AUTO_CREATE_DIR = 1
         End Enum
-        Public Shared Sub getImage _
+        Public Shared Function getImage _
             (ByVal URL As String, ByVal Directory As String, ByVal FileName As String, _
-             Optional ByVal Options As Integer = 0, Optional Notice As DelegateSendNotice = Nothing)
+             Optional ByVal Options As Options = 0, Optional Notice As DelegateSendNotice = Nothing) As Boolean
 
             If (Options & getFile.Options.AUTO_CREATE_DIR <> 0) Then
                 Dim Dir As New DirectoryInfo(Directory)
@@ -50,14 +50,14 @@ Namespace HtmlController
                 If Notice IsNot Nothing Then Notice("getImage: Automatically create " & Directory)
             Else
                 If Notice IsNot Nothing Then Notice("getImage: Not exists " & Directory)
-                Exit Sub
+                Return False
             End If
 
             Try
                 My.Computer.Network.DownloadFile(URL, Directory & FileName)
             Catch ex As Exception
                 If Notice IsNot Nothing Then Notice("getImage: Catch exception during Network download: " & ex.ToString)
-                Exit Sub
+                Return False
             End Try
 
             Dim imageFile As New FileInfo(Directory & FileName)
@@ -71,16 +71,17 @@ Namespace HtmlController
                 imageFile.MoveTo(imageFile.FullName.Replace(imageFile.Extension, imageExt))
             End If
 
-        End Sub
+            Return True
+        End Function
 
-        Public Shared Sub getImage _
+        Public Shared Function getImage _
             (ByVal URL As String, ByVal AbsPath As String, _
-             Optional ByVal Options As Integer = 0, Optional Notice As DelegateSendNotice = Nothing)
+             Optional ByVal Options As Integer = 0, Optional Notice As DelegateSendNotice = Nothing) As Boolean
             Dim splitter As Integer = AbsPath.LastIndexOf("\")
             Dim Directory As String = AbsPath.Substring(0, splitter)
             Dim Filename As String = AbsPath.Substring(splitter + 1, AbsPath.Length - splitter - 1)
-            getImage(URL, Directory, Filename, Options, Notice)
-        End Sub
+            Return getImage(URL, Directory, Filename, Options, Notice)
+        End Function
 
         Private Shared Function GetImageExt(ByVal Image As System.Drawing.Image) As String
 

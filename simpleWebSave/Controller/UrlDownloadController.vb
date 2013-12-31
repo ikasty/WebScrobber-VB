@@ -25,19 +25,9 @@ Public NotInheritable Class UrlDownloadController
 
     ' 생성자
     Private Sub New()
-        Dim totalImageTagThreads As Integer
-
-        totalImageTagThreads = Environment.ProcessorCount
-        If totalImageTagThreads > 6 Then totalImageTagThreads = 6
-
-        ReDim getTagThreads(totalImageTagThreads)
-        For Each getTagThread As Thread In getTagThreads
-            getTagThread = New Thread(AddressOf getTagFromUrl)
-        Next
-
-        getImageThread = New Thread(AddressOf getImageFileFromSource)
     End Sub
 
+    ' URL로부터 이미지 태그를 인식해옴
     Private Sub getTagFromUrl()
         Dim StartPos As Integer, FinishPos As Integer
         Dim Link As String = ""
@@ -66,6 +56,7 @@ Public NotInheritable Class UrlDownloadController
                 singleUrl.addImageLink(Link)
             Loop
 
+            ' 인식 완료. 다운로드 리스트에 추가함
             addUrl(singleUrl)
 
         End While
@@ -90,18 +81,49 @@ Public NotInheritable Class UrlDownloadController
         Return ReturnUrl
     End Function
 
-
+    ' 준비된 이미지 리스트를 다운받음
     Private Sub getImageFileFromSource()
-        While (runningTagThreads)
+        While (runningImageThread)
             Dim TargetUrl As SingleURL = getUrl()
             If TargetUrl Is Nothing Then Exit While
 
-            While TargetUrl.isEmptyImage And runningTagThreads
+            Dim index As Integer = 0
+            Dim directory As String = TargetUrl.Directory & "\" & TargetUrl.Group & "\" & TargetUrl.Title
+            Dim errdirectory As String = TargetUrl.ErrDir & "\" & TargetUrl.Group & "\" & TargetUrl.Title
 
+            While Not TargetUrl.isEmptyImage And runningImageThread
+                Dim URL As String = TargetUrl.getNextImage
+                Dim Filename As String = Format(index, "000\.dummy")
+                index += 1
+
+                If (Not HtmlController.getFile.getImage(URL, directory & "\" & Filename, HtmlController.getFile.Options.AUTO_CREATE_DIR, AddressOf Mainform.SendNotice)) Then
+                    TargetUrl.addErrorImage(New SingleURL.ErrorImage(URL, Filename))
+                End If
             End While
 
         End While
 
+    End Sub
+
+    Public Sub startTagThreads()
+        runningTagThreads = True
+        Dim totalImageTagThreads As Integer
+
+        totalImageTagThreads = Environment.ProcessorCount - 1
+        If totalImageTagThreads > 5 Then totalImageTagThreads = 5
+
+        ReDim getTagThreads(totalImageTagThreads)
+        For i As Integer = 0 To totalImageTagThreads
+            getTagThreads(i) = New Thread(AddressOf getTagFromUrl)
+            getTagThreads(i).Name = "TagFromUrl_#" & i
+            getTagThreads(i).Start()
+        Next
+    End Sub
+
+    Public Sub startFileThread()
+        runningImageThread = True
+        getImageThread = New Thread(AddressOf getImageFileFromSource)
+        getImageThread.Start()
     End Sub
 
     Private Shared Sub Notice(ByVal Message As String)
