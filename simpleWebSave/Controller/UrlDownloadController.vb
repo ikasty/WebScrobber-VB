@@ -1,4 +1,5 @@
 ﻿Imports System.Threading
+Imports SimpleWebSave.HtmlController.getFile
 
 ' 다운받을 Url 목록을 관리하는 클래스
 ' Singleton 패턴을 사용하여 UrlDownloadController.getSingleton()으로 객체를 얻어와야 한다.
@@ -33,10 +34,11 @@ Public NotInheritable Class UrlDownloadController
         Dim Link As String = ""
 
         While (runningTagThreads)
-            Dim singleUrl As SingleURL = UrlListController.getSingleton.getSingleUrl()
+            Dim singleUrl As SingleURL = UrlListController.getSingleton.getStanbyUrl()
             If (singleUrl Is Nothing) Then
                 Exit While
             End If
+            Notice("Start crawling " & singleUrl.toString)
             Dim Page As Integer = 1
 
             '//초기화
@@ -57,49 +59,35 @@ Public NotInheritable Class UrlDownloadController
             Loop
 
             ' 인식 완료. 다운로드 리스트에 추가함
-            addUrl(singleUrl)
+            UrlListController.getSingleton.setReadyDownload(singleUrl)
+            Notice("Finish crawling " & singleUrl.toString)
 
         End While
     End Sub
 
-    Private Shared urlDownloadList As New Queue(Of SingleURL)
-    Private Shared Sub addUrl(ByRef singleUrl As SingleURL)
-        SyncLock urlDownloadList
-            urlDownloadList.Enqueue(singleUrl)
-        End SyncLock
-    End Sub
-    Private Shared Function getUrl() As SingleURL
-        Dim ReturnUrl As SingleURL
-        SyncLock urlDownloadList
-            If urlDownloadList.Count = 0 Then
-                ReturnUrl = Nothing
-            Else
-                ReturnUrl = urlDownloadList.Dequeue()
-            End If
-        End SyncLock
-
-        Return ReturnUrl
-    End Function
-
     ' 준비된 이미지 리스트를 다운받음
     Private Sub getImageFileFromSource()
         While (runningImageThread)
-            Dim TargetUrl As SingleURL = getUrl()
+            Dim TargetUrl As SingleURL = UrlListController.getSingleton.getDownloadUrl()
             If TargetUrl Is Nothing Then Exit While
+            Notice("Start download " & TargetUrl.toString)
 
             Dim index As Integer = 0
-            Dim directory As String = TargetUrl.Directory & "\" & TargetUrl.Group & "\" & TargetUrl.Title
-            Dim errdirectory As String = TargetUrl.ErrDir & "\" & TargetUrl.Group & "\" & TargetUrl.Title
+            Dim directory As String = TargetUrl.Directory & "\" & TargetUrl.Group & "\" & TargetUrl.Title & "\"
+            Dim errdirectory As String = TargetUrl.ErrDir & "\" & TargetUrl.Group & "\" & TargetUrl.Title & "\"
 
             While Not TargetUrl.isEmptyImage And runningImageThread
                 Dim URL As String = TargetUrl.getNextImage
-                Dim Filename As String = Format(index, "000\.dummy")
                 index += 1
+                Dim Filename As String = Format(index, "000\.dummy")
 
-                If (Not HtmlController.getFile.getImage(URL, directory & "\" & Filename, HtmlController.getFile.Options.AUTO_CREATE_DIR, AddressOf Mainform.SendNotice)) Then
+                If (Not getImage(URL, directory & "\" & Filename, Options.AUTO_CREATE_DIR, AddressOf Mainform.getSingleton.SendNotice)) Then
                     TargetUrl.addErrorImage(New SingleURL.ErrorImage(URL, Filename))
                 End If
             End While
+
+            Notice("Finish download " & TargetUrl.toString)
+            UrlListController.getSingleton.setFinishDownload(TargetUrl)
 
         End While
 
@@ -123,10 +111,11 @@ Public NotInheritable Class UrlDownloadController
     Public Sub startFileThread()
         runningImageThread = True
         getImageThread = New Thread(AddressOf getImageFileFromSource)
+        getImageThread.Name = "ImageFromTag"
         getImageThread.Start()
     End Sub
 
     Private Shared Sub Notice(ByVal Message As String)
-        Mainform.SendNotice("UrlDownloadController: " & Message)
+        Mainform.getSingleton.SendNotice("UrlDownloadController: " & Thread.CurrentThread.Name & ": " & Message)
     End Sub
 End Class

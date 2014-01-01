@@ -8,7 +8,6 @@
     Public ReadOnly Directory As String
     Public ReadOnly ErrDir As String
 
-
     ' Constructor
     Public Sub New _
         (ByVal GROUP As String, ByVal TITLE As String, Directory As String, ErrDir As String, _
@@ -86,9 +85,6 @@
         Dim returnStr As String = """"
         returnStr += Me.Title
         If (Me.Title = "") Then returnStr += "설정되지 않은 제목"
-        returnStr += """: "
-
-        If Me.URL <> "" Then returnStr += "( " + Me.URL + " )"
 
         Return returnStr
     End Function
@@ -122,5 +118,22 @@
     Public Sub addErrorImage(ByVal ErrorImage As ErrorImage)
         errorImageList.Add(ErrorImage)
     End Sub
+
+    ''' <summary>
+    ''' Mainform의 Listview에 보여질 ListViewItem 항목입니다
+    ''' </summary>
+    Private listViewItem As ListViewItem
+    ''' <summary>
+    ''' listViewItem을 설정합니다
+    ''' </summary>
+    Public Sub setListViewItem(ByRef item As ListViewItem)
+        listViewItem = item
+    End Sub
+    ''' <summary>
+    ''' listViewItem을 구합니다
+    ''' </summary>
+    Public Function getListViewItem() As ListViewItem
+        Return listViewItem
+    End Function
 
 End Class

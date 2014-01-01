@@ -5,35 +5,30 @@ Imports System.Net
 Public Class Mainform
 
     '// Notice 출력용 delegate 함수
-    Private Delegate Sub DelegateSendNotice(ByVal Message As String)
-    Private Notice As New DelegateSendNotice(AddressOf SendNotice)
+    Private Delegate Sub SendNoticeCallback(ByVal Message As String)
+    Private Notice As New SendNoticeCallback(AddressOf SendNotice)
     '// Finish 처리용 delegate 함수
-    Private Delegate Sub DelegateFinishSave(ByVal KeepCount As Boolean)
-    Private Finish As New DelegateFinishSave(AddressOf FinishSave)
+    Private Delegate Sub FinishSaveCallback(ByVal KeepCount As Boolean)
+    Private Finish As New FinishSaveCallback(AddressOf FinishSave)
 
     '// 소스 추가
     Private Sub AddSourceBtn_Click(sender As Object, e As EventArgs) Handles AddSourceBtn.Click
         Dim NewSingleUrl As SingleURL
-        Dim Title As String = getTitleText(TitleFormat.Text, Group.Text, TitleNumber.Value, NumberCount.Value, Subchar.Text)
+
+        Dim Format As String = ""
+        For i = 1 To NumberCount.Value
+            Format = Format & "0"
+        Next
+
+        Dim Title As String = getTitleText(TitleFormat.Text, Group.Text, TitleNumber.Value, Format, Subchar.Text)
         NewSingleUrl = New SingleURL(Group.Text, Title, Url.Text, Directory.Text, ErrorDirectory.Text, useFirstUrlSource.Checked)
         UrlListController.getSingleton.addSingleUrl(NewSingleUrl)
 
-        Dim item As New ListViewItem(Url.Text)
-        item.Tag = NewSingleUrl
-        item.Name = "URL"
-        item.SubItems.Add(
-            New ListViewItem.ListViewSubItem(item, Title) _
-            .Name = "Title")
-
-        SiteListView.Items.Add(item)
+        ' 입력 폼 초기화
+        Url.Text = ""
+        If KeepCount.Checked = False Then TitleNumber.Value += 1
 
     End Sub
-
-    'Private Sub Button1_Click(sender As Object, e As EventArgs)
-    '    For Each x As ListViewItem In SiteListView.Items
-    '        'DirectCast(x.Tag, testClass).testFunc()
-    '    Next
-    'End Sub
 
     '커맨드로 소스 추가
     Private Sub SaveBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveBtn.Click
@@ -98,6 +93,7 @@ Public Class Mainform
             Me.Invoke(Notice, Message)
             Exit Sub
         End If
+
         Me.Log.AppendText(getTimeStamp & Message & vbCrLf)
     End Sub
 
@@ -151,7 +147,7 @@ Public Class Mainform
     '//타이틀 입력 후 엔터를 입력하는 경우 저장 버튼을 클릭시킨다
     Private Sub Title_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TitleNumber.KeyPress
         If e.KeyChar = ChrW(Keys.Enter) Then
-            SaveBtn_Click(sender, e)
+            AddSourceBtn_Click(sender, e)
         End If
     End Sub
 
@@ -182,11 +178,6 @@ Public Class Mainform
         End Get
     End Property
 
-    Private Sub Mainform_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Directory.Text = Environment.CurrentDirectory() + "\Manga"
-        ErrorDirectory.Text = Environment.CurrentDirectory() + "\Deleted Manga"
-    End Sub
-
     Private Sub StartCrawling_Click(sender As Object, e As EventArgs) Handles StartCrawling.Click
         UrlDownloadController.getSingleton.startTagThreads()
     End Sub
@@ -194,5 +185,35 @@ Public Class Mainform
     '다운로드 실행
     Private Sub StartDownload_Click(sender As Object, e As EventArgs) Handles StartDownload.Click
         UrlDownloadController.getSingleton.startFileThread()
+    End Sub
+
+    ''' <summary>
+    ''' Mainform의 SIngleton 객체입니다.
+    ''' </summary>
+    Private Shared singleton As Mainform
+    ''' <summary>
+    ''' Mainform의 Singleton 객체를 리턴합니다.
+    ''' </summary>
+    Public Shared Function getSingleton() As Mainform
+        If singleton IsNot Nothing Then : Return singleton
+        Else : Return Nothing
+        End If
+    End Function
+    Public Sub New()
+
+        ' 이 호출은 디자이너에 필요합니다.
+        InitializeComponent()
+
+        ' InitializeComponent() 호출 뒤에 초기화 코드를 추가하십시오.
+
+        'singleton 설정
+        singleton = Me
+    End Sub
+
+    Private Sub Mainform_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Directory.Text = Environment.CurrentDirectory() + "\Manga"
+        ErrorDirectory.Text = Environment.CurrentDirectory() + "\Deleted Manga"
+
+        UrlListController.getSingleton.setColumns()
     End Sub
 End Class

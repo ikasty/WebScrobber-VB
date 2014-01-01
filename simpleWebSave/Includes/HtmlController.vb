@@ -3,12 +3,12 @@ Imports System.Net
 
 Namespace HtmlController
     Public Class getHtml
-        Public Delegate Sub DelegateSendNotice(ByVal Message As String)
+        Public Delegate Sub SendNoticeCallback(ByVal Message As String)
 
         Private Sub New()
         End Sub
 
-        Public Shared Function getHtml(ByVal URL As String, Optional Notice As DelegateSendNotice = Nothing) As String
+        Public Shared Function getHtml(ByVal URL As String, Optional Notice As SendNoticeCallback = Nothing) As String
             Dim Request As HttpWebRequest, Response As HttpWebResponse, Stream As StreamReader
             Dim Result As New System.Text.StringBuilder
 
@@ -36,18 +36,20 @@ Namespace HtmlController
     End Class
 
     Public Class getFile
-        Public Delegate Sub DelegateSendNotice(ByVal Message As String)
+        Public Delegate Sub SendNoticeCallback(ByVal Message As String)
         Public Enum Options
             AUTO_CREATE_DIR = 1
         End Enum
         Public Shared Function getImage _
             (ByVal URL As String, ByVal Directory As String, ByVal FileName As String, _
-             Optional ByVal Options As Options = 0, Optional Notice As DelegateSendNotice = Nothing) As Boolean
+             Optional ByVal Options As Options = 0, Optional Notice As SendNoticeCallback = Nothing) As Boolean
 
             If (Options & getFile.Options.AUTO_CREATE_DIR <> 0) Then
                 Dim Dir As New DirectoryInfo(Directory)
-                If (Dir.Exists) Then Dir.Create()
-                If Notice IsNot Nothing Then Notice("getImage: Automatically create " & Directory)
+                If Not Dir.Exists Then
+                    Dir.Create()
+                    If Notice IsNot Nothing Then Notice("getImage: Automatically create " & Directory)
+                End If
             Else
                 If Notice IsNot Nothing Then Notice("getImage: Not exists " & Directory)
                 Return False
@@ -76,7 +78,7 @@ Namespace HtmlController
 
         Public Shared Function getImage _
             (ByVal URL As String, ByVal AbsPath As String, _
-             Optional ByVal Options As Integer = 0, Optional Notice As DelegateSendNotice = Nothing) As Boolean
+             Optional ByVal Options As Integer = 0, Optional Notice As SendNoticeCallback = Nothing) As Boolean
             Dim splitter As Integer = AbsPath.LastIndexOf("\")
             Dim Directory As String = AbsPath.Substring(0, splitter)
             Dim Filename As String = AbsPath.Substring(splitter + 1, AbsPath.Length - splitter - 1)
