@@ -107,11 +107,6 @@
     <Compile Include="Controller\UrlDownloadController.vb" />
     <Compile Include="Controller\UrlListController.vb" />
     <Compile Include="Controller\UrlTypeController.vb" />
-    <Compile Include="Deprecated\AutoGetSource.vb" />
-    <Compile Include="Deprecated\DetectURL.vb" />
-    <Compile Include="Deprecated\GetHtmlSource.vb" />
-    <Compile Include="Deprecated\GetImageUrl.vb" />
-    <Compile Include="Deprecated\SaveImageController.vb" />
     <Compile Include="Includes\FileSystem.vb" />
     <Compile Include="Includes\HtmlController.vb" />
     <Compile Include="Includes\PlaceholderTextBox.Designer.vb">
@@ -188,6 +183,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

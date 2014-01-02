@@ -30,8 +30,12 @@ Public Class Mainform
 
     End Sub
 
+    Private Sub ResetSourceBtn_Click(sender As Object, e As EventArgs) Handles ResetSourceBtn.Click
+        Url.Text = ""
+    End Sub
+
     '커맨드로 소스 추가
-    Private Sub SaveBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveBtn.Click
+    Private Sub ExecuteBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExecuteBtn.Click
         Dim newUrl As SingleURL
         '// group 텍스트 설정
         Dim Group = FileSystem.CleanFileName(Me.Group.Text)
@@ -43,7 +47,7 @@ Public Class Mainform
         Dim TitleCount As Integer = Me.TitleNumber.Value
 
         If (UseSourceUrl.Checked = True) Then
-            For Each eachSource As String In Source.Text.Split(vbCrLf)
+            For Each eachSource As String In Command.Text.Split(vbCrLf)
                 '// 타이틀 특수지정(///)기호 처리
                 Dim titleReplace As String = ""
                 If eachSource.Contains("///") Then
@@ -78,7 +82,7 @@ Public Class Mainform
             Next
         Else
             newUrl = New SingleURL(Group, Group & " " & Format(TitleNumber.Value, getTitleFormat) & Subchar.Text, Directory.Text, ErrorDirectory.Text, UrlTypeController.UrlType.Unknown)
-            newUrl.Source = Source.Text
+            newUrl.Source = Command.Text
             UrlListController.getSingleton.addSingleUrl(newUrl)
         End If
 
@@ -104,30 +108,6 @@ Public Class Mainform
         End Get
     End Property
 
-    'Private Sub setImageSample(ByVal LastSuccessImage As String)
-    '    Dim Sample As Bitmap
-
-    '    If LastSuccessImage <> "" Then
-    '        Sample = New Bitmap(LastSuccessImage)
-    '        Dim width As Integer, height As Integer, rate As Single
-    '        Try
-    '            width = ImageSampleBox.Width
-    '            height = ImageSampleBox.Height
-    '            rate = Sample.Height / Sample.Width
-    '            If height / width > rate Then
-    '                height = rate * width
-    '            Else
-    '                width = height / rate
-    '            End If
-
-    '            ImageSampleBox.Image = Sample.GetThumbnailImage(width, height, Nothing, New IntPtr())
-    '            Sample.Dispose()
-    '        Catch ex As Exception
-
-    '        End Try
-    '    End If
-    'End Sub
-
     '모든 처리가 완료되었을 때 외부 클래스에서 호출되는 함수
     '//Invoke가 필요한 경우 수행한다
     Public Sub FinishSave(Optional ByVal KeepCount As Boolean = False)
@@ -139,13 +119,8 @@ Public Class Mainform
 
     End Sub
 
-    '//소스 부분 더블클릭 시 데이터 리셋
-    Private Sub Source_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Source.MouseDoubleClick
-        Source.Text = ""
-    End Sub
-
     '//타이틀 입력 후 엔터를 입력하는 경우 저장 버튼을 클릭시킨다
-    Private Sub Title_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TitleNumber.KeyPress
+    Private Sub Source_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TitleNumber.KeyPress, Url.KeyPress
         If e.KeyChar = ChrW(Keys.Enter) Then
             AddSourceBtn_Click(sender, e)
         End If
@@ -168,6 +143,9 @@ Public Class Mainform
         Return FileSystem.CleanFileName(Result)
     End Function
 
+    ''' <summary>
+    ''' Deprecated
+    ''' </summary>
     Public ReadOnly Property getTitleFormat As String
         Get
             Dim x As String = ""
@@ -199,12 +177,9 @@ Public Class Mainform
         Else : Return Nothing
         End If
     End Function
+
     Public Sub New()
-
-        ' 이 호출은 디자이너에 필요합니다.
         InitializeComponent()
-
-        ' InitializeComponent() 호출 뒤에 초기화 코드를 추가하십시오.
 
         'singleton 설정
         singleton = Me
@@ -215,5 +190,14 @@ Public Class Mainform
         ErrorDirectory.Text = Environment.CurrentDirectory() + "\Deleted Manga"
 
         UrlListController.getSingleton.setColumns()
+    End Sub
+
+    Private Sub SourceDeleteBtn_Click(sender As Object, e As EventArgs) Handles SourceDeleteBtn.Click
+        SourceListView.SelectedItems(0).Tag.dispose()
+        SourceListView.SelectedItems(0).Remove()
+    End Sub
+
+    Private Sub FinishedSourceDeleteBtn_Click(sender As Object, e As EventArgs) Handles FinishedSourceDeleteBtn.Click
+        UrlListController.getSingleton.deleteFinishUrl()
     End Sub
 End Class

@@ -102,7 +102,7 @@
 
     ' 접기 태그 가져오기
     '//source 값이 ByRef으로, 값이 변경될 수 있다
-    Public Shared Sub getMoreTag(ByRef Source As String, ByVal Type As DetectURL.UrlType)
+    Public Shared Sub getMoreTag(ByRef Source As String, ByVal Type As UrlType)
         Dim StartPos As Integer = 0, FinishPos As Integer, InsertPos As Integer
         Dim Params() As String
         Dim reqParam As Specialized.NameValueCollection
@@ -145,7 +145,7 @@
                     End Try
                 Loop
                 '//네이버 접기 태그 처리 끝
-            Case DetectURL.UrlType.FC2
+            Case UrlType.FC2
                 Do
                     Try
                         '//접기 태그 시작점

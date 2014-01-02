@@ -14,7 +14,7 @@ Public NotInheritable Class UrlListController
         With columnHeader1
             .Text = "제목"
             .TextAlign = HorizontalAlignment.Left
-            .Width = 60
+            .Width = 120
         End With
         Dim columnHeader2 As New ColumnHeader
         With columnHeader2
@@ -29,7 +29,7 @@ Public NotInheritable Class UrlListController
             .Width = 100
         End With
 
-        With Mainform.getSingleton.SiteListView.Columns
+        With Mainform.getSingleton.SourceListView.Columns
             .Add(columnHeader1)
             .Add(columnHeader2)
             .Add(columnHeader3)
@@ -49,10 +49,23 @@ Public NotInheritable Class UrlListController
 
         'Mainform의 리스트에 추가한다
         SyncLock Singleton
-            Mainform.getSingleton.SiteListView.Items.Add(item)
+            Mainform.getSingleton.SourceListView.Items.Add(item)
             SingleURL.setListViewItem(item)
         End SyncLock
 
+    End Sub
+
+    ''' <summary>
+    ''' 다운로드 완료된 항목을 삭제합니다
+    ''' </summary>
+    ''' <remarks>멀티스레드에 안전하게 설계되지 않았습니다. 메인 스레드에서만 호출할 수 있습니다.</remarks>
+    Public Sub deleteFinishUrl()
+        For Each item As ListViewItem In Mainform.getSingleton.SourceListView.Items
+            If item.SubItems("Status").Text = "다운로드 완료" Then
+                item.Tag.dispose()
+                item.Remove()
+            End If
+        Next
     End Sub
 
     Delegate Function getUrlCallback() As SingleURL
@@ -69,7 +82,7 @@ Public NotInheritable Class UrlListController
 
         Dim returnUrl As SingleURL = Nothing
         SyncLock Singleton
-            For Each item As ListViewItem In Mainform.getSingleton.SiteListView.Items
+            For Each item As ListViewItem In Mainform.getSingleton.SourceListView.Items
                 If item.SubItems("Status").Text = "대기중" Then
                     returnUrl = DirectCast(item.Tag, SingleURL)
                     Exit For
@@ -89,7 +102,7 @@ Public NotInheritable Class UrlListController
 
         Dim returnUrl As SingleURL = Nothing
         SyncLock Singleton
-            For Each item As ListViewItem In Mainform.getSingleton.SiteListView.Items
+            For Each item As ListViewItem In Mainform.getSingleton.SourceListView.Items
                 If item.SubItems("Status").Text = "다운로드 대기중" Then
                     returnUrl = DirectCast(item.Tag, SingleURL)
                     Exit For

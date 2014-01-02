@@ -1,4 +1,4 @@
-﻿Public Class SingleURL
+﻿Public Class SingleURL : Implements IDisposable
 
     '//소스의 첫 url 가져올 지 여부
     Public useFirstUrl As Boolean = False
@@ -135,5 +135,36 @@
     Public Function getListViewItem() As ListViewItem
         Return listViewItem
     End Function
+
+#Region "IDisposable Support"
+    Private disposedValue As Boolean ' 중복 호출을 검색하려면
+
+    ' IDisposable
+    Protected Overridable Sub Dispose(disposing As Boolean)
+        If Not Me.disposedValue Then
+            If disposing Then
+                ' TODO: 관리되는 상태(관리되는 개체)를 삭제합니다.
+            End If
+
+            ' TODO: 관리되지 않는 리소스(관리되지 않는 개체)를 해제하고 아래의 Finalize()를 재정의합니다.
+            ' TODO: 큰 필드를 null로 설정합니다.
+        End If
+        Me.disposedValue = True
+    End Sub
+
+    ' TODO: 위의 Dispose(ByVal disposing As Boolean)에 관리되지 않는 리소스를 해제하기 위한 코드가 있는 경우에만 Finalize()를 재정의합니다.
+    'Protected Overrides Sub Finalize()
+    '    ' 이 코드는 변경하지 마십시오.  위의 Dispose(ByVal disposing As Boolean)에 정리 코드를 입력하십시오.
+    '    Dispose(False)
+    '    MyBase.Finalize()
+    'End Sub
+
+    ' 삭제 가능한 패턴을 올바르게 구현하기 위해 Visual Basic에서 추가한 코드입니다.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' 이 코드는 변경하지 마십시오.  위의 Dispose(disposing As Boolean)에 정리 코드를 입력하십시오.
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+#End Region
 
 End Class

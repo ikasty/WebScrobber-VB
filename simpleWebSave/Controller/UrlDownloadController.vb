@@ -103,7 +103,7 @@ Public NotInheritable Class UrlDownloadController
         ReDim getTagThreads(totalImageTagThreads)
         For i As Integer = 0 To totalImageTagThreads
             getTagThreads(i) = New Thread(AddressOf getTagFromUrl)
-            getTagThreads(i).Name = "TagFromUrl_#" & i
+            getTagThreads(i).Name = "Crawler_#" & i
             getTagThreads(i).Start()
         Next
     End Sub
@@ -111,7 +111,7 @@ Public NotInheritable Class UrlDownloadController
     Public Sub startFileThread()
         runningImageThread = True
         getImageThread = New Thread(AddressOf getImageFileFromSource)
-        getImageThread.Name = "ImageFromTag"
+        getImageThread.Name = "Downloader"
         getImageThread.Start()
     End Sub
 

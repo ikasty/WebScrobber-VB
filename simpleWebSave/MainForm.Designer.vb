@@ -22,8 +22,8 @@ Partial Class Mainform
     '코드 편집기를 사용하여 수정하지 마십시오.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Source = New System.Windows.Forms.TextBox()
-        Me.SaveBtn = New System.Windows.Forms.Button()
+        Me.Command = New System.Windows.Forms.TextBox()
+        Me.ExecuteBtn = New System.Windows.Forms.Button()
         Me.Log = New System.Windows.Forms.TextBox()
         Me.SettingBox = New System.Windows.Forms.GroupBox()
         Me.Url = New System.Windows.Forms.TextBox()
@@ -60,13 +60,19 @@ Partial Class Mainform
         Me.Info = New System.Windows.Forms.TextBox()
         Me.LogBox = New System.Windows.Forms.GroupBox()
         Me.SiteListBox = New System.Windows.Forms.GroupBox()
-        Me.SiteListView = New System.Windows.Forms.ListView()
+        Me.SourceActionPanel = New System.Windows.Forms.Panel()
+        Me.SourceEditBtn = New System.Windows.Forms.Button()
+        Me.SourceListView = New System.Windows.Forms.ListView()
         Me.ConsoleBox = New System.Windows.Forms.GroupBox()
         Me.FixedAreaPanel = New System.Windows.Forms.Panel()
         Me.ExecuteAreaPanel = New System.Windows.Forms.Panel()
         Me.StartCrawling = New System.Windows.Forms.Button()
         Me.StartDownload = New System.Windows.Forms.Button()
         Me.GrowAreaPanel = New System.Windows.Forms.Panel()
+        Me.SourceDeleteBtn = New System.Windows.Forms.Button()
+        Me.ResetSourceBtn = New System.Windows.Forms.Button()
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
+        Me.FinishedSourceDeleteBtn = New System.Windows.Forms.Button()
         Me.SettingBox.SuspendLayout()
         CType(Me.NumberCount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TitleNumber, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -74,35 +80,36 @@ Partial Class Mainform
         Me.InfoBox.SuspendLayout()
         Me.LogBox.SuspendLayout()
         Me.SiteListBox.SuspendLayout()
+        Me.SourceActionPanel.SuspendLayout()
         Me.ConsoleBox.SuspendLayout()
         Me.FixedAreaPanel.SuspendLayout()
         Me.ExecuteAreaPanel.SuspendLayout()
         Me.GrowAreaPanel.SuspendLayout()
         Me.SuspendLayout()
         '
-        'Source
+        'Command
         '
-        Me.Source.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Source.Location = New System.Drawing.Point(2, 18)
-        Me.Source.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.Source.MaxLength = 1024768
-        Me.Source.Multiline = True
-        Me.Source.Name = "Source"
-        Me.Source.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.Source.Size = New System.Drawing.Size(381, 110)
-        Me.Source.TabIndex = 0
+        Me.Command.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Command.Location = New System.Drawing.Point(2, 18)
+        Me.Command.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.Command.MaxLength = 1024768
+        Me.Command.Multiline = True
+        Me.Command.Name = "Command"
+        Me.Command.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.Command.Size = New System.Drawing.Size(381, 110)
+        Me.Command.TabIndex = 0
         '
-        'SaveBtn
+        'ExecuteBtn
         '
-        Me.SaveBtn.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.SaveBtn.Font = New System.Drawing.Font("맑은 고딕", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.SaveBtn.Location = New System.Drawing.Point(2, 128)
-        Me.SaveBtn.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-        Me.SaveBtn.Name = "SaveBtn"
-        Me.SaveBtn.Size = New System.Drawing.Size(381, 34)
-        Me.SaveBtn.TabIndex = 1
-        Me.SaveBtn.Text = "콘솔 실행"
-        Me.SaveBtn.UseVisualStyleBackColor = True
+        Me.ExecuteBtn.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.ExecuteBtn.Font = New System.Drawing.Font("맑은 고딕", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ExecuteBtn.Location = New System.Drawing.Point(2, 128)
+        Me.ExecuteBtn.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+        Me.ExecuteBtn.Name = "ExecuteBtn"
+        Me.ExecuteBtn.Size = New System.Drawing.Size(381, 34)
+        Me.ExecuteBtn.TabIndex = 1
+        Me.ExecuteBtn.Text = "콘솔 실행"
+        Me.ExecuteBtn.UseVisualStyleBackColor = True
         '
         'Log
         '
@@ -113,11 +120,13 @@ Partial Class Mainform
         Me.Log.Multiline = True
         Me.Log.Name = "Log"
         Me.Log.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.Log.Size = New System.Drawing.Size(310, 188)
+        Me.Log.Size = New System.Drawing.Size(421, 188)
         Me.Log.TabIndex = 0
         '
         'SettingBox
         '
+        Me.SettingBox.Controls.Add(Me.ComboBox1)
+        Me.SettingBox.Controls.Add(Me.ResetSourceBtn)
         Me.SettingBox.Controls.Add(Me.Url)
         Me.SettingBox.Controls.Add(Me.URLLabel)
         Me.SettingBox.Controls.Add(Me.TitleFormat)
@@ -157,7 +166,7 @@ Partial Class Mainform
         Me.Url.Location = New System.Drawing.Point(68, 71)
         Me.Url.Margin = New System.Windows.Forms.Padding(2)
         Me.Url.Name = "Url"
-        Me.Url.Size = New System.Drawing.Size(315, 23)
+        Me.Url.Size = New System.Drawing.Size(186, 23)
         Me.Url.TabIndex = 2
         '
         'URLLabel
@@ -177,8 +186,9 @@ Partial Class Mainform
         Me.TitleFormat.Location = New System.Drawing.Point(68, 122)
         Me.TitleFormat.Margin = New System.Windows.Forms.Padding(2)
         Me.TitleFormat.Name = "TitleFormat"
-        Me.TitleFormat.Size = New System.Drawing.Size(71, 23)
+        Me.TitleFormat.Size = New System.Drawing.Size(70, 23)
         Me.TitleFormat.TabIndex = 5
+        Me.TitleFormat.TabStop = False
         Me.TitleFormat.Text = "%G %n%s"
         '
         'AddSourceBtn
@@ -209,7 +219,7 @@ Partial Class Mainform
         Me.ErrorDirectory.Location = New System.Drawing.Point(68, 47)
         Me.ErrorDirectory.Margin = New System.Windows.Forms.Padding(2)
         Me.ErrorDirectory.Name = "ErrorDirectory"
-        Me.ErrorDirectory.Size = New System.Drawing.Size(315, 23)
+        Me.ErrorDirectory.Size = New System.Drawing.Size(313, 23)
         Me.ErrorDirectory.TabIndex = 1
         '
         'DeletedLabel
@@ -243,6 +253,7 @@ Partial Class Mainform
         Me.NumberCount.Name = "NumberCount"
         Me.NumberCount.Size = New System.Drawing.Size(35, 23)
         Me.NumberCount.TabIndex = 7
+        Me.NumberCount.TabStop = False
         Me.NumberCount.Value = New Decimal(New Integer() {2, 0, 0, 0})
         '
         'SampleLabel
@@ -276,13 +287,14 @@ Partial Class Mainform
         Me.KeepCount.Name = "KeepCount"
         Me.KeepCount.Size = New System.Drawing.Size(78, 19)
         Me.KeepCount.TabIndex = 8
+        Me.KeepCount.TabStop = False
         Me.KeepCount.Text = "화수 유지"
         Me.KeepCount.UseVisualStyleBackColor = True
         '
         'Subchar
         '
         Me.Subchar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Subchar.Location = New System.Drawing.Point(353, 97)
+        Me.Subchar.Location = New System.Drawing.Point(352, 97)
         Me.Subchar.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.Subchar.Name = "Subchar"
         Me.Subchar.Size = New System.Drawing.Size(29, 23)
@@ -293,7 +305,7 @@ Partial Class Mainform
         '
         Me.SubcharLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SubcharLabel.AutoSize = True
-        Me.SubcharLabel.Location = New System.Drawing.Point(317, 99)
+        Me.SubcharLabel.Location = New System.Drawing.Point(317, 100)
         Me.SubcharLabel.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.SubcharLabel.Name = "SubcharLabel"
         Me.SubcharLabel.Size = New System.Drawing.Size(31, 15)
@@ -348,7 +360,7 @@ Partial Class Mainform
         Me.Group.Location = New System.Drawing.Point(68, 97)
         Me.Group.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.Group.Name = "Group"
-        Me.Group.Size = New System.Drawing.Size(247, 23)
+        Me.Group.Size = New System.Drawing.Size(245, 23)
         Me.Group.TabIndex = 3
         '
         'Directory
@@ -358,7 +370,7 @@ Partial Class Mainform
         Me.Directory.Location = New System.Drawing.Point(68, 21)
         Me.Directory.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.Directory.Name = "Directory"
-        Me.Directory.Size = New System.Drawing.Size(315, 23)
+        Me.Directory.Size = New System.Drawing.Size(313, 23)
         Me.Directory.TabIndex = 0
         Me.Directory.Text = "F:\Manga Scraps"
         '
@@ -521,7 +533,7 @@ Partial Class Mainform
         Me.LogBox.Margin = New System.Windows.Forms.Padding(2)
         Me.LogBox.Name = "LogBox"
         Me.LogBox.Padding = New System.Windows.Forms.Padding(2)
-        Me.LogBox.Size = New System.Drawing.Size(314, 208)
+        Me.LogBox.Size = New System.Drawing.Size(425, 208)
         Me.LogBox.TabIndex = 1
         Me.LogBox.TabStop = False
         Me.LogBox.Text = "로그"
@@ -531,35 +543,56 @@ Partial Class Mainform
         Me.SiteListBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.SiteListBox.Controls.Add(Me.SiteListView)
+        Me.SiteListBox.Controls.Add(Me.SourceActionPanel)
+        Me.SiteListBox.Controls.Add(Me.SourceListView)
         Me.SiteListBox.Location = New System.Drawing.Point(2, 2)
         Me.SiteListBox.Margin = New System.Windows.Forms.Padding(2)
         Me.SiteListBox.Name = "SiteListBox"
         Me.SiteListBox.Padding = New System.Windows.Forms.Padding(2)
-        Me.SiteListBox.Size = New System.Drawing.Size(314, 166)
+        Me.SiteListBox.Size = New System.Drawing.Size(425, 166)
         Me.SiteListBox.TabIndex = 0
         Me.SiteListBox.TabStop = False
         Me.SiteListBox.Text = "소스 목록"
         '
-        'SiteListView
+        'SourceActionPanel
         '
-        Me.SiteListView.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SiteListView.Location = New System.Drawing.Point(2, 18)
-        Me.SiteListView.Margin = New System.Windows.Forms.Padding(2)
-        Me.SiteListView.MultiSelect = False
-        Me.SiteListView.Name = "SiteListView"
-        Me.SiteListView.Size = New System.Drawing.Size(310, 146)
-        Me.SiteListView.TabIndex = 0
-        Me.SiteListView.UseCompatibleStateImageBehavior = False
-        Me.SiteListView.View = System.Windows.Forms.View.Details
+        Me.SourceActionPanel.Controls.Add(Me.FinishedSourceDeleteBtn)
+        Me.SourceActionPanel.Controls.Add(Me.SourceDeleteBtn)
+        Me.SourceActionPanel.Controls.Add(Me.SourceEditBtn)
+        Me.SourceActionPanel.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.SourceActionPanel.Location = New System.Drawing.Point(2, 136)
+        Me.SourceActionPanel.Name = "SourceActionPanel"
+        Me.SourceActionPanel.Size = New System.Drawing.Size(421, 28)
+        Me.SourceActionPanel.TabIndex = 1
+        '
+        'SourceEditBtn
+        '
+        Me.SourceEditBtn.Location = New System.Drawing.Point(3, 3)
+        Me.SourceEditBtn.Name = "SourceEditBtn"
+        Me.SourceEditBtn.Size = New System.Drawing.Size(75, 23)
+        Me.SourceEditBtn.TabIndex = 2
+        Me.SourceEditBtn.Text = "수정"
+        Me.SourceEditBtn.UseVisualStyleBackColor = True
+        '
+        'SourceListView
+        '
+        Me.SourceListView.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SourceListView.Location = New System.Drawing.Point(2, 18)
+        Me.SourceListView.Margin = New System.Windows.Forms.Padding(2)
+        Me.SourceListView.MultiSelect = False
+        Me.SourceListView.Name = "SourceListView"
+        Me.SourceListView.Size = New System.Drawing.Size(421, 146)
+        Me.SourceListView.TabIndex = 0
+        Me.SourceListView.UseCompatibleStateImageBehavior = False
+        Me.SourceListView.View = System.Windows.Forms.View.Details
         '
         'ConsoleBox
         '
         Me.ConsoleBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ConsoleBox.Controls.Add(Me.Source)
-        Me.ConsoleBox.Controls.Add(Me.SaveBtn)
+        Me.ConsoleBox.Controls.Add(Me.Command)
+        Me.ConsoleBox.Controls.Add(Me.ExecuteBtn)
         Me.ConsoleBox.Location = New System.Drawing.Point(2, 220)
         Me.ConsoleBox.Margin = New System.Windows.Forms.Padding(2)
         Me.ConsoleBox.Name = "ConsoleBox"
@@ -577,7 +610,7 @@ Partial Class Mainform
         Me.FixedAreaPanel.Controls.Add(Me.SourceSettingBox)
         Me.FixedAreaPanel.Controls.Add(Me.InfoBox)
         Me.FixedAreaPanel.Dock = System.Windows.Forms.DockStyle.Right
-        Me.FixedAreaPanel.Location = New System.Drawing.Point(318, 0)
+        Me.FixedAreaPanel.Location = New System.Drawing.Point(429, 0)
         Me.FixedAreaPanel.Margin = New System.Windows.Forms.Padding(2)
         Me.FixedAreaPanel.Name = "FixedAreaPanel"
         Me.FixedAreaPanel.Size = New System.Drawing.Size(628, 387)
@@ -623,15 +656,52 @@ Partial Class Mainform
         Me.GrowAreaPanel.Location = New System.Drawing.Point(0, 0)
         Me.GrowAreaPanel.Margin = New System.Windows.Forms.Padding(2)
         Me.GrowAreaPanel.Name = "GrowAreaPanel"
-        Me.GrowAreaPanel.Size = New System.Drawing.Size(318, 387)
+        Me.GrowAreaPanel.Size = New System.Drawing.Size(429, 387)
         Me.GrowAreaPanel.TabIndex = 1
+        '
+        'SourceDeleteBtn
+        '
+        Me.SourceDeleteBtn.Location = New System.Drawing.Point(84, 3)
+        Me.SourceDeleteBtn.Name = "SourceDeleteBtn"
+        Me.SourceDeleteBtn.Size = New System.Drawing.Size(75, 23)
+        Me.SourceDeleteBtn.TabIndex = 3
+        Me.SourceDeleteBtn.Text = "삭제"
+        Me.SourceDeleteBtn.UseVisualStyleBackColor = True
+        '
+        'ResetSourceBtn
+        '
+        Me.ResetSourceBtn.BackColor = System.Drawing.SystemColors.ControlDark
+        Me.ResetSourceBtn.Location = New System.Drawing.Point(128, 181)
+        Me.ResetSourceBtn.Name = "ResetSourceBtn"
+        Me.ResetSourceBtn.Size = New System.Drawing.Size(119, 26)
+        Me.ResetSourceBtn.TabIndex = 32
+        Me.ResetSourceBtn.Text = "취소"
+        Me.ResetSourceBtn.UseVisualStyleBackColor = False
+        '
+        'ComboBox1
+        '
+        Me.ComboBox1.FormattingEnabled = True
+        Me.ComboBox1.Location = New System.Drawing.Point(259, 71)
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Size = New System.Drawing.Size(121, 23)
+        Me.ComboBox1.TabIndex = 33
+        Me.ComboBox1.TabStop = False
+        '
+        'FinishedSourceDeleteBtn
+        '
+        Me.FinishedSourceDeleteBtn.Location = New System.Drawing.Point(165, 3)
+        Me.FinishedSourceDeleteBtn.Name = "FinishedSourceDeleteBtn"
+        Me.FinishedSourceDeleteBtn.Size = New System.Drawing.Size(108, 23)
+        Me.FinishedSourceDeleteBtn.TabIndex = 4
+        Me.FinishedSourceDeleteBtn.Text = "완료된 항목 삭제"
+        Me.FinishedSourceDeleteBtn.UseVisualStyleBackColor = True
         '
         'Mainform
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.AutoScroll = True
-        Me.ClientSize = New System.Drawing.Size(946, 387)
+        Me.ClientSize = New System.Drawing.Size(1057, 387)
         Me.Controls.Add(Me.GrowAreaPanel)
         Me.Controls.Add(Me.FixedAreaPanel)
         Me.Font = New System.Drawing.Font("맑은 고딕", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
@@ -650,6 +720,7 @@ Partial Class Mainform
         Me.LogBox.ResumeLayout(False)
         Me.LogBox.PerformLayout()
         Me.SiteListBox.ResumeLayout(False)
+        Me.SourceActionPanel.ResumeLayout(False)
         Me.ConsoleBox.ResumeLayout(False)
         Me.ConsoleBox.PerformLayout()
         Me.FixedAreaPanel.ResumeLayout(False)
@@ -658,8 +729,8 @@ Partial Class Mainform
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents Source As System.Windows.Forms.TextBox
-    Friend WithEvents SaveBtn As System.Windows.Forms.Button
+    Friend WithEvents Command As System.Windows.Forms.TextBox
+    Friend WithEvents ExecuteBtn As System.Windows.Forms.Button
     Friend WithEvents Log As System.Windows.Forms.TextBox
     Friend WithEvents SettingBox As System.Windows.Forms.GroupBox
     Friend WithEvents Sample As System.Windows.Forms.TextBox
@@ -692,7 +763,7 @@ Partial Class Mainform
     Friend WithEvents DeletedLabel As System.Windows.Forms.Label
     Friend WithEvents AddSourceBtn As System.Windows.Forms.Button
     Friend WithEvents SiteListBox As System.Windows.Forms.GroupBox
-    Friend WithEvents SiteListView As System.Windows.Forms.ListView
+    Friend WithEvents SourceListView As System.Windows.Forms.ListView
     Friend WithEvents URLLabel As System.Windows.Forms.Label
     Friend WithEvents TitleFormat As System.Windows.Forms.TextBox
     Friend WithEvents TitleFormatLabel As System.Windows.Forms.Label
@@ -703,5 +774,11 @@ Partial Class Mainform
     Friend WithEvents StartDownload As System.Windows.Forms.Button
     Friend WithEvents ExecuteAreaPanel As System.Windows.Forms.Panel
     Friend WithEvents StartCrawling As System.Windows.Forms.Button
+    Friend WithEvents SourceEditBtn As System.Windows.Forms.Button
+    Friend WithEvents SourceActionPanel As System.Windows.Forms.Panel
+    Friend WithEvents SourceDeleteBtn As System.Windows.Forms.Button
+    Friend WithEvents ResetSourceBtn As System.Windows.Forms.Button
+    Friend WithEvents ComboBox1 As System.Windows.Forms.ComboBox
+    Friend WithEvents FinishedSourceDeleteBtn As System.Windows.Forms.Button
 
 End Class
