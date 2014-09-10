@@ -103,7 +103,9 @@
   <ItemGroup>
     <Compile Include="Classes\htmlParser.vb" />
     <Compile Include="Classes\SingleImage.vb" />
+    <Compile Include="Classes\SingleToken.vb" />
     <Compile Include="Classes\SingleURL.vb" />
+    <Compile Include="Controller\ConsolParseController.vb" />
     <Compile Include="Controller\UrlDownloadController.vb" />
     <Compile Include="Controller\UrlListController.vb" />
     <Compile Include="Controller\UrlTypeController.vb" />
